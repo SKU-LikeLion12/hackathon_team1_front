@@ -1,18 +1,19 @@
 import React from "react";
-import Header from "./Header";
+import Header from "../components/Header";
 
 export default function Login() {
   return (
     <>
       <Header />
-      <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
+
+      <div className="flex justify-center items-center min-h-[calc(100vh-7rem)]">
         <div className="w-[80%]">
           <div>
             <div className="text-[#8A8585] text-xs mb-2">아이디</div>
             <input
               type="text"
               value="아이디"
-              className="w-full h-14 border-[1px] border-[#BABABA] bg-[#F9FAFC] rounded-lg px-5"
+              className="w-full h-12 border-[1px] border-[#BABABA] bg-[#F9FAFC] rounded-lg px-5"
             ></input>
           </div>
 
@@ -21,11 +22,11 @@ export default function Login() {
             <input
               type="password"
               value="비밀번호"
-              className="w-full h-14 border-[1px] border-[#BABABA] bg-[#F9FAFC] rounded-lg px-5"
+              className="w-full h-12 border-[1px] border-[#BABABA] bg-[#F9FAFC] rounded-lg px-5"
             ></input>
           </div>
 
-          <div className="text-[#8A8585] text-xs mb-6 flex justify-center">
+          <div className="text-[#8A8585] text-xs mb-8 flex justify-center">
             아이디찾기 | 비밀번호 설정 | 회원가입
           </div>
 
@@ -33,7 +34,7 @@ export default function Login() {
             로그인 하기
           </button>
 
-          <div className="my-20">
+          <div className="mt-20">
             <button className="my-1 w-full h-12 border-[1px] border-[#848484] bg-white rounded-lg font-bold text-sm">
               <div>구글로 로그인하기</div>
             </button>
