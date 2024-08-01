@@ -9,6 +9,7 @@ import FindIdSuccess from "./pages/FindIdSuccess";
 import ResetPasswordAuth from "./pages/ResetPasswordAuth";
 import ResetPassword from "./pages/ResetPassword";
 import ResetPasswordSuccess from "./pages/ResetPasswordSuccess";
+import ModalTest from "./pages/ModalTest";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/resetauth" element={<ResetPasswordAuth />} />
           <Route path="/resetpw" element={<ResetPassword />} />
           <Route path="/resetsuccess" element={<ResetPasswordSuccess />} />
+          <Route path="/modal" element={<ModalTest />} />
         </Routes>
       </BrowserRouter>
     </div>

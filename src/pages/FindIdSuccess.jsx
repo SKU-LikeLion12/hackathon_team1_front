@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Header from "../components/Header";
 
 export default function FindIdSuccess() {
@@ -29,13 +30,17 @@ export default function FindIdSuccess() {
             </p>
           </div>
 
-          <button className="w-full h-12 bg-[#93BF66] rounded-lg text-white font-bold mt-16">
-            로그인 하러 가기
-          </button>
+          <Link to="/login">
+            <div className="w-full h-12 bg-[#93BF66] rounded-lg text-white font-bold mt-16 flex justify-center items-center">
+              로그인 하러 가기
+            </div>
+          </Link>
 
           <div className="mt-3 mr-2 text-right font-bold text-xs text-[#676767]">
             <span className="mr-2">비밀번호가 기억나지 않는다면?</span>
-            <span className="underline">비밀번호 재설정</span>
+            <Link to="/resetauth">
+              <span className="underline">비밀번호 재설정</span>
+            </Link>
           </div>
         </div>
       </div>
