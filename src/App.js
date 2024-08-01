@@ -10,6 +10,10 @@ import ResetPasswordAuth from "./pages/ResetPasswordAuth";
 import ResetPassword from "./pages/ResetPassword";
 import ResetPasswordSuccess from "./pages/ResetPasswordSuccess";
 import ModalTest from "./pages/ModalTest";
+import Community from "./pages/Community";
+import Post from "./pages/Post";
+import PostDetail from "./pages/PostDetail";
+import PostPhoto from "./pages/PostPhoto";
 
 function App() {
   return (
@@ -26,6 +30,12 @@ function App() {
           <Route path="/resetpw" element={<ResetPassword />} />
           <Route path="/resetsuccess" element={<ResetPasswordSuccess />} />
           <Route path="/modal" element={<ModalTest />} />
+          
+          <Route path="/community" element={<Community />} />
+          <Route path="/post/:postId" element={<PostDetail />} />
+          <Route path="/post" element={<Post />} />
+          <Route path="/postdetail" element={<PostDetail />} />
+          <Route path="/postphoto" element={<PostPhoto />} />
         </Routes>
       </BrowserRouter>
     </div>
