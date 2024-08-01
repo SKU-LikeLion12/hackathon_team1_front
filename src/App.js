@@ -30,7 +30,7 @@ function App() {
           <Route path="/resetpw" element={<ResetPassword />} />
           <Route path="/resetsuccess" element={<ResetPasswordSuccess />} />
           <Route path="/modal" element={<ModalTest />} />
-          
+
           <Route path="/community" element={<Community />} />
           <Route path="/post/:postId" element={<PostDetail />} />
           <Route path="/post" element={<Post />} />
