@@ -1,12 +1,9 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Link } from 'react-router-dom';
 import Community from "./pages/Community";
-import Post from "./pages/Post"
+import Post from "./pages/Post";
 import PostDetail from "./pages/PostDetail";
 import PostPhoto from "./pages/PostPhoto";
-
-
 
 function App() {
   return (
