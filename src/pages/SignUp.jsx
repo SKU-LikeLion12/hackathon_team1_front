@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
+import axios from "axios";
 
 export default function SignUpPage() {
+  //입력값 저장 변수
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [authNum, setAuthNum] = useState(null);
@@ -9,15 +11,25 @@ export default function SignUpPage() {
   const [pw, setPw] = useState("");
   const [checkPw, setCheckPw] = useState("");
 
+  //작성 형식이 정규식에 알맞는지 여부
+  const [nameValid, setNameValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
-  //const [idValid, setIdValid] = useState(false);
+  const [idValid, setIdValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
   const [checkPwVaild, setCheckPwValid] = useState(false);
-  const [buttonAllow, setButtonAllow] = useState(true);
+
+  //중복 확인을 진행한 경우
+  const [isEmailDuplicate, setIsEmailDuplicate] = useState(false);
 
   const handleName = (e) => {
+    const regex = /^[가-힣]{2,10}$/;
     setName(e.target.value);
-    console.log(e.target.value);
+
+    if (regex.test(e.target.value)) {
+      setNameValid(true);
+    } else {
+      setNameValid(false);
+    }
   };
 
   const handleEmail = (e) => {
@@ -36,7 +48,51 @@ export default function SignUpPage() {
   };
 
   const handleId = (e) => {
+    // 아이디 정규표현식
+    const regex = /^[a-zA-Z][0-9a-zA-Z]{5,15}$/g;
     setId(e.target.value);
+
+    if (regex.test(e.target.value)) {
+      setIdValid(true);
+    } else {
+      setIdValid(false);
+    }
+  };
+
+  //이메일 중복 확인
+  const updateEmailDuplication = async () => {
+    try {
+      const response = await axios.post("요청 url", {
+        userId: id,
+      });
+
+      const EmailDuplication = response.data.userId;
+
+      if (EmailDuplication) {
+        alert("사용 가능한 이메일입니다.");
+        setIsEmailDuplicate(true);
+      } else {
+        alert("이미 가입된 이메일입니다.");
+        setIsEmailDuplicate(false);
+      }
+    } catch (error) {
+      console.error("response error : ", error);
+    }
+  };
+
+  const requestAuthCode = async () => {
+    //isEmailDuplicate가 true면 인증코드 발송, false면 이메일 중복확인을 진행하라는 알림창 열림
+    if (isEmailDuplicate) {
+      try {
+        const response = await axios.post("요청 url", {
+          userId: id,
+        });
+      } catch (error) {
+        console.error("response error : ", error);
+      }
+    } else {
+      alert("이메일 중복 확인을 진행해주세요!");
+    }
   };
 
   const handlePw = (e) => {
@@ -56,7 +112,11 @@ export default function SignUpPage() {
   };
 
   const handleButton = () => {
-    alert("버튼 클릭!");
+    if (nameValid && emailValid && idValid && pwValid && checkPwVaild) {
+      alert("모든 입력값 작성됨");
+    } else {
+      alert("모든 값을 입력해주세요.");
+    }
   };
 
   useEffect(() => {
@@ -67,15 +127,6 @@ export default function SignUpPage() {
       setCheckPwValid(false);
     }
   }, [pw, checkPw]);
-
-  //제대로된 값이 입력되지 않은 경우 버튼 비활성화
-  useEffect(() => {
-    if (pwValid && checkPwVaild && emailValid) {
-      setButtonAllow(false);
-    } else {
-      setButtonAllow(true);
-    }
-  }, [pwValid, checkPwVaild, emailValid]);
 
   return (
     <>
@@ -95,6 +146,13 @@ export default function SignUpPage() {
               value={name}
               onChange={handleName}
               className="w-full h-12 border-[1px] border-[#BABABA] bg-[#F9FAFC] rounded-lg px-5"></input>
+
+            {/* 정규표현식에 부합하는지 알려주는 문구 */}
+            {!nameValid && name.length > 0 && (
+              <div className="text-xs pl-2 font-bold text-[#F92D2D]">
+                한글 2~10자 형식으로 작성해주세요.
+              </div>
+            )}
           </div>
 
           <div className="mb-3">
@@ -106,11 +164,15 @@ export default function SignUpPage() {
                 onChange={handleEmail}
                 className="w-full h-12 border-[1px] border-[#BABABA] bg-[#F9FAFC] rounded-lg px-5"></input>
 
-              <button className="min-w-[75px] h-12 border-[1px] border-[#93BF66] bg-[#93BF66] rounded-lg text-white font-bold text-sm mx-2">
+              <button
+                className="min-w-[75px] h-12 border-[1px] border-[#93BF66] bg-[#93BF66] rounded-lg text-white font-bold text-sm mx-2"
+                onClick={updateEmailDuplication}>
                 중복확인
               </button>
 
-              <button className="min-w-[75px] h-12 border-[1px] border-[#93BF66] bg-[#93BF66] rounded-lg text-white font-bold text-sm">
+              <button
+                className="min-w-[75px] h-12 border-[1px] border-[#93BF66] bg-[#93BF66] rounded-lg text-white font-bold text-sm"
+                onClick={requestAuthCode}>
                 인증하기
               </button>
             </div>
@@ -160,9 +222,13 @@ export default function SignUpPage() {
                 중복확인
               </button>
             </div>
-            <div className="text-xs pl-2 font-bold text-[#27AD1C]">
-              사용 가능한 아이디입니다.
-            </div>
+
+            {/* 정규표현식에 부합하는지 알려주는 문구 */}
+            {!idValid && id.length > 0 && (
+              <div className="text-xs pl-2 font-bold text-[#F92D2D]">
+                영문, 숫자 포함 6~16자 입력해주세요.
+              </div>
+            )}
           </div>
 
           <div className="mb-3">
@@ -210,7 +276,6 @@ export default function SignUpPage() {
           </div>
 
           <button
-            disabled={buttonAllow}
             onClick={handleButton}
             className="w-full h-12 border-[1px] border-[#93BF66] bg-[#93BF66] rounded-lg text-white font-bold mt-4">
             다음
