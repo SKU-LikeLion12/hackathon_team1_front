@@ -52,13 +52,11 @@ function Community() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white">
+    <div className="flex flex-col h-screen bg-white max-w-[500px] mx-auto relative">
       {/* 무연 */}
       <header className="flex items-center justify-between p-2 border-b">
-        <FaArrowLeft className="text-lg" />
-        <div className="flex flex-col items-center">
-          <h1 className="text-base font-semibold">無연</h1>
-          <h2 className="text-xs">커뮤니티</h2>
+        <div className="flex flex-1 justify-center">
+          <img src="/image/Logo.png" alt="Logo" className="h-16" />
         </div>
         <FaSearch
           className="text-lg"
@@ -81,7 +79,7 @@ function Community() {
       )}
 
       {/* 내용 */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto pb-32 pt-20">
         <ul className="divide-y">
           {currentPosts.map((post, index) => (
             <li key={index} className="py-2 px-3">
@@ -103,8 +101,8 @@ function Community() {
         </ul>
       </main>
 
-      {/* 페이지네이션 */}
-      <div className="relative py-2 border-t">
+      {/* 페이지네이션 및 글쓰기 버튼 */}
+      <div className="fixed bottom-16 left-1/2 transform -translate-x-1/2 w-full max-w-[500px] py-2 bg-white border-t">
         <div className="flex justify-center items-center">
           <button
             onClick={() => currentPage > 1 && goToPage(currentPage - 1)}
@@ -142,7 +140,7 @@ function Community() {
       </div>
 
       {/* 메뉴 */}
-      <footer className="flex justify-around items-center py-2 border-t">
+      <footer className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[500px] flex justify-around items-center py-2 border-t bg-white">
         <button className="flex flex-col items-center">
           <FaUser className="text-lg mb-0.5" />
           <span className="text-xs">마이페이지</span>

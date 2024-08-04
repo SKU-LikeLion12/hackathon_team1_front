@@ -83,14 +83,23 @@ function Post() {
 
   return (
     <div className="flex flex-col h-screen bg-white">
-      <header className="flex items-center justify-between p-4 border-b">
-        <FaArrowLeft className="text-xl cursor-pointer" onClick={backToList} />
-        <h1 className="text-lg font-semibold">無연</h1>
-        <button
-          onClick={saveBoard}
-          className="bg-[#93BF66] text-white px-3 py-1 rounded-md text-sm font-bold">
-          게시
-        </button>
+      <header className="flex items-center justify-between p-2 border-b">
+        <div className="flex flex-1 justify-start">
+          <FaArrowLeft
+            className="text-lg cursor-pointer"
+            onClick={backToList}
+          />
+        </div>
+        <div className="flex flex-1 justify-center">
+          <img src="/image/Logo.png" alt="Logo" className="h-16" />
+        </div>
+        <div className="flex flex-1 justify-end">
+          <button
+            onClick={saveBoard}
+            className="bg-[#93BF66] text-white px-3 py-1 rounded-md text-sm font-bold">
+            게시
+          </button>
+        </div>
       </header>
 
       <main className="flex-1 p-4 overflow-y-auto">
