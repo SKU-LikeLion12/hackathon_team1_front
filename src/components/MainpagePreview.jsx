@@ -1,8 +1,6 @@
 import React from "react";
-import Header from "../components/Header";
-import ProgressBar from "../components/ProgressBar";
+import ProgressBar from "./ProgressBar";
 import { CheckIcon, DotsIcon } from "../animation/icons/MainPageIcons";
-
 const timelineData = [
   { time: 20, description: "심박수가 정상으로 돌아옵니다." }, // 20분
   {
@@ -44,7 +42,6 @@ const timelineData = [
   }, // 5년
 ];
 
-// 시간 데이터를 형식화하는 함수
 const formatTime = (minutes) => {
   if (minutes < 60) {
     return `${minutes}분`;
@@ -59,52 +56,31 @@ const formatTime = (minutes) => {
   }
 };
 
-export default function MainpageStatus() {
-  const currentDuration = 1440; // 24시간을 분 단위로 변경
+export default function MainpagePreview({ currentDuration }) {
   return (
-    <>
-      <div>
-        <Header />
-
-        <div className="max-w-lg mx-auto px-6 py-8">
-          <div className="text-2xl mb-6">
-            금연한지 <span className="font-bold">24시간</span> <br />
-            경과하였습니다.
+    <div className="relative">
+      {timelineData.slice(0, 2).map((item, index) => {
+        const percentage = Math.min((currentDuration / item.time) * 100, 100);
+        return (
+          <div key={index} className="mb-8 relative flex items-center">
+            <div className="mr-6">
+              {percentage >= 100 ? <CheckIcon /> : <DotsIcon />}
+            </div>
+            <div className="w-full flex flex-col bg-[#F5F2EB] rounded-lg px-5 py-4">
+              <div className="text-sm font-bold mb-2">
+                {formatTime(item.time)}
+              </div>
+              <div className="text-[#4A4A4A] text-sm mb-2">
+                {item.description}
+              </div>
+              <ProgressBar percentage={percentage} />
+              <div className="text-xs text-[#656565] text-right">
+                {Math.round(percentage)}%
+              </div>
+            </div>
           </div>
-          <div className="relative">
-            {timelineData.map((item, index) => {
-              const percentage = Math.min(
-                (currentDuration / item.time) * 100,
-                100
-              );
-              return (
-                <div key={index} className="mb-8 relative flex items-center">
-                  <div className="mr-6">
-                    {percentage >= 100 ? (
-                      <CheckIcon /> // 체크표시
-                    ) : (
-                      <DotsIcon /> // 진행 중 표시
-                    )}
-                  </div>
-
-                  <div className="w-full flex flex-col bg-[#F5F2EB] rounded-lg px-5 py-4">
-                    <div className="text-sm font-bold mb-2">
-                      {formatTime(item.time)}
-                    </div>
-                    <div className="text-[#4A4A4A] text-sm mb-2">
-                      {item.description}
-                    </div>
-                    <ProgressBar percentage={percentage} />
-                    <div className="text-xs text-[#656565] text-right">
-                      {Math.round(percentage)}%
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </>
+        );
+      })}
+    </div>
   );
 }

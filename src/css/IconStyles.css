@@ -1,0 +1,33 @@
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* 자식 요소의 절대 위치를 설정하기 위해 추가 */
+}
+
+.green-circle,
+.light-green-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 30px; /* 아이콘 크기 조절 */
+  height: 30px; /* 아이콘 크기 조절 */
+  font-size: 15px; /* 아이콘 내 텍스트 크기 조절 */
+  position: relative; /* 자식 요소의 절대 위치를 설정하기 위해 추가 */
+}
+
+.green-circle {
+  background-color: #47735d; /* 초록색 */
+  color: white;
+}
+
+.light-green-circle {
+  background-color: #93bf66; /* 연두색 */
+  color: white;
+}
+
+.check-mark,
+.dots {
+  font-size: 15px;
+}

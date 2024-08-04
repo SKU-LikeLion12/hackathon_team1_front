@@ -1,5 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect } from "react";
 
 import Mainpage from "./pages/Mainpage";
 import Mypage from "./pages/Mypage";

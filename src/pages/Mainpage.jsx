@@ -10,10 +10,9 @@ import { PiCoinsDuotone } from "react-icons/pi";
 import { CgDanger } from "react-icons/cg";
 import api from "../api/api.jsx";
 
-import ProgressBar from "./ProgressBar.jsx"; // Import the ProgressBar component
-
 import AmountModal from "../components/AmountModal.jsx";
 import LifeModal from "../components/LifeModal.jsx";
+import MainpagePreview from "../components/MainpagePreview.jsx";
 
 export default function Mainpage() {
   const navigate = useNavigate();
@@ -21,12 +20,14 @@ export default function Mainpage() {
   const [AmountModalOpen, setAmountModalOpen] = useState(false);
   const [LifeModalOpen, setLifeModalOpen] = useState(false);
 
-  const [noSmokedCigas, setNoSmokedCigas] = useState(null);
-  const [savedAmount, setSavedAmount] = useState(null);
-  const [increasedLifespan, setIncreasedLifespan] = useState(null);
-  const [smokeInfo, setSmokeInfo] = useState(null);
-  const [spentAmount, setSpentAmount] = useState(null);
-  const [tar, setTar] = useState(null);
+  const [initialData, setInitialData] = useState({
+    cigarettesNotSmoked: null,
+    savedMoney: null,
+    increasedLifespan: null,
+    totalSmokingDuration: null,
+    totalSpentMoney: null,
+    tar: null,
+  });
 
   const navigateToStatus = () => {
     navigate("/mainstatus");
@@ -46,7 +47,7 @@ export default function Mainpage() {
     document.body.style.overflow = "hidden";
   };
 
-  /* useEffect(() => {
+  /*   useEffect(() => {
     const loadInitialData = async () => {
       try {
         //받은 데이터를 어떻게 처리할건지
@@ -84,19 +85,25 @@ export default function Mainpage() {
 
         <Header />
 
-        <div>
-          <img src="/image/non-smoking.png" className="w-full" />
-        </div>
-
         <div className="w-full h-full bg-[#F5F2EB]">
           <div className="flex justify-center items-center font-bold">
             <div className="w-[90%] my-8">
-              <div className="w-full h-full bg-white rounded-2xl mb-3 px-5 py-4">
+              <img src="/image/Mainpage_img.png" className="w-60 mx-auto" />
+
+              <div className="text-center font-bold my-8">
+                <div className="text-2xl">1일차 00:05</div>
+                <div>금연할 수 있다!</div>
+              </div>
+
+              <div className="w-full h-full bg-white rounded-2xl mb-3 px-5 pt-4 pb-1">
                 <div className="flex justify-between items-center mb-5">
                   <span className="font-bold text-lg">상태변화</span>
                   <button onClick={navigateToStatus}>
                     <IoIosArrowForward size={20} className="text-[#BABABA]" />
                   </button>
+                </div>
+                <div className="px-2">
+                  <MainpagePreview currentDuration={1440} />
                 </div>
               </div>
 
@@ -114,7 +121,9 @@ export default function Mainpage() {
                     <div className="text-[#3E3E3E] text-xs mb-2">
                       피우지 않은 담배 갯수
                     </div>
-                    <div className="text-sm">120개</div>
+                    <div className="text-sm">
+                      {initialData.cigarettesNotSmoked}개
+                    </div>
                   </div>
                 </div>
 
@@ -125,7 +134,7 @@ export default function Mainpage() {
                       <div className="text-[#3E3E3E] text-xs mb-2">
                         절약한 금액(₩)
                       </div>
-                      <div className="text-sm">120개</div>
+                      <div className="text-sm">{initialData.savedMoney}원</div>
                     </div>
                   </div>
                   <button
@@ -145,7 +154,9 @@ export default function Mainpage() {
                       <div className="text-[#3E3E3E] text-xs mb-2">
                         늘어난 수명
                       </div>
-                      <div className="text-sm">120개</div>
+                      <div className="text-sm">
+                        {initialData.increasedLifespan}
+                      </div>
                     </div>
                   </div>
 
@@ -171,7 +182,9 @@ export default function Mainpage() {
                     <div className="text-[#3E3E3E] text-xs mb-2">
                       총 흡연기간
                     </div>
-                    <div className="text-sm">120개</div>
+                    <div className="text-sm">
+                      {initialData.totalSmokingDuration}
+                    </div>
                   </div>
                 </div>
 
@@ -184,7 +197,9 @@ export default function Mainpage() {
                     <div className="text-[#3E3E3E] text-xs mb-2">
                       소비한 금액(₩)
                     </div>
-                    <div className="text-sm">120개</div>
+                    <div className="text-sm">
+                      {initialData.totalSpentMoney}원
+                    </div>
                   </div>
                 </div>
 
@@ -194,7 +209,7 @@ export default function Mainpage() {
                     <div className="text-[#3E3E3E] text-xs mb-2">
                       삼킨 타르 양
                     </div>
-                    <div className="text-sm">120개</div>
+                    <div className="text-sm">{initialData.tar}mg</div>
                   </div>
                 </div>
               </div>
