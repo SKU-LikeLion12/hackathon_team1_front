@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaRegComment } from "react-icons/fa";
 import { BsSend } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../api/axiosConfig";
+import api from "../api/api";
 
 function PostPhoto() {
   const [postData, setPostData] = useState(null);
