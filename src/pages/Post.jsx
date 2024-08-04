@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { FaArrowLeft, FaCamera } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { FaArrowLeft, FaCamera } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import api from "../api/api";
 
 function Post() {
   const navigate = useNavigate();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [createdBy, setCreatedBy] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [createdBy, setCreatedBy] = useState("");
   const [image, setImage] = useState(null);
 
   const handleImageUpload = (e) => {
@@ -22,14 +23,14 @@ function Post() {
 
   const onChange = (event) => {
     const { value, name } = event.target;
-    switch(name) {
-      case 'title':
+    switch (name) {
+      case "title":
         setTitle(value);
         break;
-      case 'content':
+      case "content":
         setContent(value);
         break;
-      case 'createdBy':
+      case "createdBy":
         setCreatedBy(value);
         break;
       default:
@@ -37,25 +38,47 @@ function Post() {
     }
   };
 
+  // const saveBoard = async () => {
+  //   const boardData = {
+  //     title,
+  //     createdBy,
+  //     contents: content,
+  //   };
+
+  //   try {
+  //     await axios.post('//localhost:8080/community', boardData);
+  //     alert('등록되었습니다.');
+  //     navigate('/community');
+  //   } catch (error) {
+  //     console.error('Error saving board:', error);
+  //     alert('등록 중 오류가 발생했습니다.');
+  //   }
+  // };
+
   const saveBoard = async () => {
-    const boardData = {
-      title,
-      createdBy,
-      contents: content,
-    };
+    const formData = new FormData();
+    formData.append("request", JSON.stringify({ title, content }));
+    if (image) {
+      formData.append("image", image);
+    }
 
     try {
-      await axios.post('//localhost:8080/community', boardData);
-      alert('등록되었습니다.');
-      navigate('/community');
+      const response = await api.post("/article/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // 토큰을 로컬 스토리지에서 가져옴
+        },
+      });
+      alert("게시물이 등록되었습니다.");
+      navigate("/community");
     } catch (error) {
-      console.error('Error saving board:', error);
-      alert('등록 중 오류가 발생했습니다.');
+      console.error("게시물 등록 중 오류가 발생했습니다:", error);
+      alert("게시물 등록 중 오류가 발생했습니다.");
     }
   };
 
   const backToList = () => {
-    navigate('/community');
+    navigate("/community");
   };
 
   return (
@@ -65,8 +88,7 @@ function Post() {
         <h1 className="text-lg font-semibold">無연</h1>
         <button
           onClick={saveBoard}
-          className="bg-[#93BF66] text-white px-3 py-1 rounded-md text-sm font-bold"
-        >
+          className="bg-[#93BF66] text-white px-3 py-1 rounded-md text-sm font-bold">
           게시
         </button>
       </header>
@@ -116,15 +138,16 @@ function Post() {
             />
             <button
               onClick={removeImage}
-              className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
-            >
+              className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
               X
             </button>
           </div>
         )}
 
         <p className="text-xs text-gray-500 mt-4">
-          * 저속한 표현, 타인의 명예훼손, 상업성, 불건전한 내용의 게시글을 게시할 경우 임의로 삭제될 수 있으며, 무연 커뮤니티 서비스 이용에 불이익이 갈 수 있음을 알려드립니다.
+          * 저속한 표현, 타인의 명예훼손, 상업성, 불건전한 내용의 게시글을
+          게시할 경우 임의로 삭제될 수 있으며, 무연 커뮤니티 서비스 이용에
+          불이익이 갈 수 있음을 알려드립니다.
         </p>
       </main>
     </div>
