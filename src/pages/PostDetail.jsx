@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaRegComment } from "react-icons/fa";
 import { BsSend } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
+import Headerback from "../components/Headerback";
 import api from "../api/api";
 
 function PostDetail() {
@@ -117,14 +118,7 @@ function PostDetail() {
 
   return (
     <div className="App flex flex-col h-screen max-w-lg mx-auto">
-      <header className="flex items-center justify-between p-4 border-b">
-        <FaArrowLeft
-          className="text-xl cursor-pointer"
-          onClick={() => navigate("/community")}
-        />
-        <h1 className="text-lg font-semibold">無연</h1>
-        <div className="w-6" />
-      </header>
+      <Headerback />
 
       <main className="flex-1 p-4 overflow-auto">
         <div className="mb-4">

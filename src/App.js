@@ -15,7 +15,7 @@ import ResetPasswordAuth from "./pages/ResetPasswordAuth";
 import ResetPassword from "./pages/ResetPassword";
 import ResetPasswordSuccess from "./pages/ResetPasswordSuccess";
 import ModalTest from "./pages/ModalTest";
-import Community from "./pages/community";
+import Community from "./pages/Community";
 import Post from "./pages/Post";
 import PostDetail from "./pages/PostDetail";
 import PostPhoto from "./pages/PostPhoto";
