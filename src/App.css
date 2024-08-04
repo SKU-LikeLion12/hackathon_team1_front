@@ -6,3 +6,20 @@
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 400; /* Regular */
+}
+
+h1 {
+  font-weight: 700; /* Bold */
+}
+
+.light-text {
+  font-weight: 300; /* Light */
+}
+
+.medium-text {
+  font-weight: 500; /* Medium */
+}

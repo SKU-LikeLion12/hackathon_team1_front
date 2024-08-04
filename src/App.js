@@ -19,6 +19,7 @@ import Community from "./pages/community";
 import Post from "./pages/Post";
 import PostDetail from "./pages/PostDetail";
 import PostPhoto from "./pages/PostPhoto";
+import "./fonts/fonts.css";
 
 function App() {
   return (

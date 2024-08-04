@@ -24,7 +24,7 @@ function Community() {
 
   const fetchPosts = async () => {
     try {
-      const response = await api.get("/articles/all");
+      const response = await api().get("/articles/all");
       setPosts(response.data);
     } catch (error) {
       console.error("게시물을 불러오는데 실패했습니다:", error);
