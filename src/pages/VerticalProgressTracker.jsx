@@ -1,5 +1,5 @@
 import React from "react";
-import ProgressStep from "./ProgressStep";
+import ProgressStep from "./Circle";
 
 const steps = [
   { time: "20분", status: "completed", text: "심박수가 정상으로 돌아옵니다" },

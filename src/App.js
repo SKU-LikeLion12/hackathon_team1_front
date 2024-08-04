@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 
 import Mainpage from "./pages/Mainpage";
 import Mypage from "./pages/Mypage";
@@ -15,7 +15,7 @@ import ResetPasswordAuth from "./pages/ResetPasswordAuth";
 import ResetPassword from "./pages/ResetPassword";
 import ResetPasswordSuccess from "./pages/ResetPasswordSuccess";
 import ModalTest from "./pages/ModalTest";
-import Community from "./pages/Community";
+import Community from "./pages/community";
 import Post from "./pages/Post";
 import PostDetail from "./pages/PostDetail";
 import PostPhoto from "./pages/PostPhoto";
