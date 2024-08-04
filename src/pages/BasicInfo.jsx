@@ -11,6 +11,7 @@ export default function BasicInfo() {
   const [smokeDate, setSmokeDate] = useState("");
   const [minQuitDate, setMinQuitDate] = useState("");
   const [maxSmokeDate, setMaxSmokeDate] = useState("");
+
   //정수형 변환 필요
   const [dailyCount, setDailyCount] = useState("");
   const [cigarPrice, setCigarPrice] = useState("");

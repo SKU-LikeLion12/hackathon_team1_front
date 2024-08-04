@@ -45,13 +45,16 @@ export default function Login() {
     <>
       <Header />
 
-      <div className="flex justify-center items-center min-h-[calc(100vh-7rem)]">
+      <div className="flex justify-center items-center min-h-[calc(100vh-10rem)]">
         <div className="w-[80%]">
           <div>
-            <p className="text-xl font-bold mb-2">로그인하기</p>
+            <p className="text-2xl font-bold mb-2 text-[#93BF66]">로그인하기</p>
+            <p className="font-bold text-[#676767]">
+              無연에 오신것을 환영합니다!
+            </p>
           </div>
 
-          <div className="w-full h-[1px] bg-[#BABABA] mt-3 mb-8" />
+          <div className="w-full h-[1px] bg-[#BABABA] mt-4 mb-8" />
 
           <div>
             <div className="text-[#8A8585] text-xs mb-2">아이디</div>
@@ -62,7 +65,7 @@ export default function Login() {
               className="w-full h-12 border-[1px] border-[#BABABA] bg-[#F9FAFC] rounded-lg px-5"></input>
           </div>
 
-          <div className="mt-4 mb-3">
+          <div className="mt-6 mb-3">
             <div className="text-[#8A8585] text-xs mb-2">비밀번호</div>
             <input
               type="password"
@@ -71,7 +74,7 @@ export default function Login() {
               className="w-full h-12 border-[1px] border-[#BABABA] bg-[#F9FAFC] rounded-lg px-5"></input>
           </div>
 
-          <div className="text-[#8A8585] text-xs mb-8 flex justify-center">
+          <div className="text-[#8A8585] text-xs mb-16 flex justify-center">
             <Link to="/findid">
               <div>아이디찾기</div>
             </Link>

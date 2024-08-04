@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import api from "../api/api";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 
 export default function ResetPasswordAuth() {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [authNum, setAuthNum] = useState(null);
@@ -102,6 +105,7 @@ export default function ResetPasswordAuth() {
 
         if (response.status === 200 && response.data === true) {
           alert("이메일로 임시 비밀번호를 발송했습니다.");
+          navigate("/login", { replace: true });
         } else if (response.status === 400 && response.data === false) {
           alert("이메일 또는 아이디가 잘못되었습니다.");
         } else {
@@ -126,7 +130,9 @@ export default function ResetPasswordAuth() {
       <div className="flex justify-center items-center min-h-[calc(100vh-6rem)]">
         <div className="w-[80%]">
           <div>
-            <p className="text-xl font-bold mb-2">비밀번호 재설정하기</p>
+            <p className="text-xl font-bold mb-2 text-[#93BF66]">
+              비밀번호 재설정하기
+            </p>
             <p className="font-bold text-[#676767]">정보를 입력해주세요!</p>
           </div>
 

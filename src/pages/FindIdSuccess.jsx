@@ -22,7 +22,7 @@ export default function FindIdSuccess() {
       <div className="flex justify-center items-center min-h-[calc(100vh-10rem)]">
         <div className="w-[80%]">
           <div>
-            <p className="text-xl font-bold mb-2">아이디 찾기</p>
+            <p className="text-xl font-bold mb-2 text-[#93BF66]">아이디 찾기</p>
             <p className="font-bold text-[#676767]">
               입력하신 정보에 따른 아이디 찾기 결과입니다!
             </p>
