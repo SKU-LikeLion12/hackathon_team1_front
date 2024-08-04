@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaArrowLeft,
   FaSearch,
@@ -8,6 +8,7 @@ import {
   FaPencilAlt,
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../api/axiosConfig";
 
 function Community() {
   const navigate = useNavigate();
@@ -15,6 +16,20 @@ function Community() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const postsPerPage = 4; // 페이지 당 게시물 수
+  const [posts, setPosts] = useState([]); // api 연결
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await api.get("/articles/all");
+      setPosts(response.data);
+    } catch (error) {
+      console.error("게시물을 불러오는데 실패했습니다:", error);
+    }
+  };
 
   // 게시물 필터링 로직
   const filteredPosts = posts.filter(
