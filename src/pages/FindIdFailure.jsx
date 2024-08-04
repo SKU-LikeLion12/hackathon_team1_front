@@ -1,8 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 
 export default function () {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { name } = location.state || {};
+
+  const navigateToSignup = () => {
+    navigate("/signup", { replace: true });
+  };
+
+  const navigateTofindId = () => {
+    navigate("/findid", { replace: true });
+  };
+
   return (
     <>
       <Header />
@@ -19,23 +31,23 @@ export default function () {
 
           <div className="font-bold text-xl text-center">
             <p className="leading-[50px]">
-              <span className="text-[#93BF66] text-2xl">이름들어감</span> 님의
+              <span className="text-[#93BF66] text-2xl">{name}</span> 님의
               아이디에 대한 <br />
               정보가 존재하지 않습니다.
             </p>
           </div>
 
-          <Link to="/signup">
-            <div className="w-full h-12 bg-[#93BF66] rounded-lg text-white font-bold mt-16 flex justify-center items-center">
-              회원가입 하러 가기
-            </div>
-          </Link>
+          <button
+            className="w-full h-12 bg-[#93BF66] rounded-lg text-white font-bold mt-16 flex justify-center items-center"
+            onClick={navigateToSignup}>
+            회원가입 하러 가기
+          </button>
 
-          <Link to="/findid">
-            <button className="w-full h-12 bg-[#93BF66] rounded-lg text-white font-bold mt-6 flex justify-center items-center">
-              아이디 다시 찾기
-            </button>
-          </Link>
+          <button
+            className="w-full h-12 bg-[#93BF66] rounded-lg text-white font-bold mt-6 flex justify-center items-center"
+            onClick={navigateTofindId}>
+            아이디 다시 찾기
+          </button>
         </div>
       </div>
     </>
