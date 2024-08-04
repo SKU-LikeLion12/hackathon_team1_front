@@ -26,7 +26,7 @@ export default function LifeModal(props) {
           <div className="w-[75%]">
             <div className="w-full min-h-[530px] bg-white rounded-2xl drop-shadow-xl">
               <div className="w-[80%] min-h-[530px] mx-auto py-10 text-center flex flex-col justify-center items-center">
-                <div className="h-40 w-40">
+                <div className="h-32 w-32">
                   <Heart />
                 </div>
 

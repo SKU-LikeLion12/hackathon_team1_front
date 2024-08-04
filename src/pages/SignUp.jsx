@@ -297,7 +297,7 @@ export default function SignUpPage() {
                 type="text"
                 value={authNum}
                 onChange={handleAuthNum}
-                className="w-full h-12 border-[1px] border-[#BABABA] bg-[#F9FAFC] rounded-lg px-5"></input>
+                className="w-full h-12 border-[1px] border-[#BABABA] bg-[#F9FAFC] rounded-lg px-5 mr-2"></input>
 
               <button
                 className="min-w-[75px] h-12 border-[1px] border-[#93BF66] bg-[#93BF66] rounded-lg text-white font-bold text-sm"

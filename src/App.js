@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 
 import Mainpage from "./pages/Mainpage";
 import Mypage from "./pages/Mypage";
-import Mainpage1 from "./pages/Mainpage1";
+import MainStatus from "./pages/MainpageStatus";
 import VerticalProgressTracker from "./pages/VerticalProgressTracker";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -27,7 +27,7 @@ function App() {
         <Routes>
           <Route path="/main" element={<Mainpage />} />
           <Route path="/mypage" element={<Mypage />} />
-          <Route path="/mainpage1" element={<Mainpage1 />} />
+          <Route path="/mainstatus" element={<MainStatus />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
