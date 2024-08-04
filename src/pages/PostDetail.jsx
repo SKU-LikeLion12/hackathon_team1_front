@@ -8,13 +8,7 @@ function PostDetail() {
   const [postData, setPostData] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
-  const [replyingTo, setReplyingTo] = useState(null);
   const [editComment, setEditComment] = useState({ id: null, text: "" });
-  const [editReply, setEditReply] = useState({
-    parentId: null,
-    id: null,
-    text: "",
-  });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -30,7 +24,7 @@ function PostDetail() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await api.get(`/article/${postId}`);
+      const response = await api().get(`/article/${postId}`);
       if (response.data) {
         setPostData(response.data);
       } else {
@@ -75,31 +69,17 @@ function PostDetail() {
       );
       fetchComments();
       setNewComment("");
-      setReplyingTo(null);
     } catch (error) {
       console.error("댓글 추가에 실패했습니다:", error);
     }
-  };
-
-  const handleReplyClick = (parentId) => {
-    setReplyingTo(parentId);
-    setNewComment("");
   };
 
   const handleEditCommentChange = (e) => {
     setEditComment({ ...editComment, text: e.target.value });
   };
 
-  const handleEditReplyChange = (e, parentId) => {
-    setEditReply({ ...editReply, text: e.target.value });
-  };
-
   const handleEditComment = (id, text) => {
     setEditComment({ id, text });
-  };
-
-  const handleEditReply = (parentId, id, text) => {
-    setEditReply({ parentId, id, text });
   };
 
   const handleEditCommentSubmit = async (id) => {
@@ -120,27 +100,6 @@ function PostDetail() {
       setEditComment({ id: null, text: "" });
     } catch (error) {
       console.error("댓글 수정에 실패했습니다:", error);
-    }
-  };
-
-  const handleEditReplySubmit = async (parentId, id) => {
-    try {
-      await api.put(
-        `/comment`,
-        {
-          commentId: id,
-          content: editReply.text,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      fetchComments();
-      setEditReply({ parentId: null, id: null, text: "" });
-    } catch (error) {
-      console.error("답글 수정에 실패했습니다:", error);
     }
   };
 
@@ -209,11 +168,6 @@ function PostDetail() {
                       <p className="mt-1">{comment.content}</p>
                       <div className="flex space-x-2">
                         <button
-                          onClick={() => handleReplyClick(comment.commentId)}
-                          className="text-xs text-[#B2B2B2] mt-1">
-                          답글 달기
-                        </button>
-                        <button
                           onClick={() =>
                             handleEditComment(
                               comment.commentId,
@@ -237,9 +191,7 @@ function PostDetail() {
         <div className="flex items-center">
           <input
             type="text"
-            placeholder={
-              replyingTo ? "대댓글을 입력하세요." : "댓글을 입력하세요."
-            }
+            placeholder="댓글을 입력하세요."
             value={newComment}
             onChange={handleNewCommentChange}
             className="flex-1 border-b p-2 focus:outline-none"
