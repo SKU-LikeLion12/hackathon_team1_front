@@ -25,7 +25,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Mainpage />} />
+          <Route path="/main" element={<Mainpage />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/mainpage1" element={<Mainpage1 />} />
 

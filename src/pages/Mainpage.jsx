@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import { PiCigaretteFill } from "react-icons/pi";
 import { FaWonSign } from "react-icons/fa";
@@ -8,9 +8,45 @@ import { MdOutlineTipsAndUpdates } from "react-icons/md";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { PiCoinsDuotone } from "react-icons/pi";
 import { CgDanger } from "react-icons/cg";
+import api from "../api/api.jsx";
 import ProgressBar from "./ProgressBar.jsx"; // Import the ProgressBar component
 
 export default function Mainpage() {
+  const navigate = useNavigate();
+  const [noSmokedCigas, setNoSmokedCigas] = useState(null);
+  const [savedAmount, setSavedAmount] = useState(null);
+  const [increasedLifespan, setIncreasedLifespan] = useState(null);
+  const [smokeInfo, setSmokeInfo] = useState(null);
+  const [spentAmount, setSpentAmount] = useState(null);
+  const [tar, setTar] = useState(null);
+
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        //받은 데이터를 어떻게 처리할건지
+        const response = await api().get("/main/info");
+        setNoSmokedCigas(response.data.noSmokedCigas);
+        setSmokeInfo(response.data.smokeinfo);
+        setSpentAmount(response.data.setSpentAmount);
+        setTar(response.data.tar);
+        setIncreasedLifespan(response.data.setIncreasedLifespan);
+        setSavedAmount(response.data.setSavedAmount);
+
+        // 필요한 데이터만 빼서 출력
+      } catch (error) {
+        //에러
+        console.error("loadIitialData error : ", error);
+      }
+    };
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      loadInitialData();
+    } else {
+      //navigate("/login", { replace: true });
+    }
+  }, []);
+
   return (
     <>
       <div>
@@ -48,11 +84,12 @@ export default function Mainpage() {
               <div className="font-bold">내 현황</div>
               <div className="mt-3 flex items-center">
                 <PiCigaretteFill className="w-[25px] h-[25px]" />
-                <div className="ml-3">피우지 않은 담배 갯수</div>
+                <div className="ml-3">피우지 않은 담배 갯수{noSmokedCigas}</div>
               </div>
               <div className="mt-3 flex items-center">
                 <FaWonSign className="w-[25px] h-[25px]" />
-                <div className="ml-3">절약한 금액</div>
+                <div className="ml-3">절약한 금액{savedAmount}</div>
+
                 <div className="ml-auto text-[8px]">
                   <button className="w-[55px] h-[20px] rounded-lg bg-zinc-200 mr-[20px]">
                     자세히 보기
@@ -61,7 +98,7 @@ export default function Mainpage() {
               </div>
               <div className="mt-3 flex items-center">
                 <FaHeartCirclePlus className="w-[25px] h-[25px]" />
-                <div className="ml-3">늘어난 수명</div>
+                <div className="ml-3">늘어난 수명{increasedLifespan}</div>
                 <div className="ml-auto text-[8px]">
                   <button className="w-[55px] h-[20px] rounded-lg bg-zinc-200  mr-[20px]">
                     자세히 보기
@@ -83,17 +120,17 @@ export default function Mainpage() {
 
             <div className="flex items-center ml-5 mt-9">
               <FaRegCalendarAlt className="w-[25px] h-[25px]" />
-              <div className="ml-3">총 흡연기간</div>
+              <div className="ml-3">총 흡연기간{smokeInfo?.smokingPeriod}</div>
             </div>
 
             <div className="flex items-center ml-5 mt-9">
               <PiCoinsDuotone className="w-[25px] h-[25px]" />
-              <div className="ml-3">소비한 금액</div>
+              <div className="ml-3">소비한 금액 {spentAmount}</div>
             </div>
 
             <div className="flex items-center ml-5 mt-9">
               <CgDanger className="w-[25px] h-[25px]" />
-              <div className="ml-3">삼킨 타르양</div>
+              <div className="ml-3">삼킨 타르양 {tar}</div>
             </div>
           </div>
         </div>
