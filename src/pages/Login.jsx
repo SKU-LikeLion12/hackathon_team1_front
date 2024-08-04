@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../api/api";
 import Header from "../components/Header";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
@@ -14,11 +16,28 @@ export default function Login() {
     setPw(e.target.value);
   };
 
-  const handleLoginBtn = () => {
+  const handleLogin = async () => {
     if (id.length == 0 && pw.length == 0) {
       alert("아이디와 패스워드를 입력해주세요");
     } else {
-      alert("올바른 입력");
+      try {
+        const response = await api().post("/login", {
+          userId: id,
+          password: pw,
+        });
+
+        if (response.status === 200 && response.data.token) {
+          const token = response.data.token;
+          localStorage.setItem("token", token);
+
+          navigate("/", { replace: true });
+        } else {
+          alert("유효하지 않은 아이디, 비밀번호입니다.");
+        }
+      } catch (error) {
+        console.error("Login.jsx handleLogin error : ", error);
+        alert("오류 발생");
+      }
     }
   };
 
@@ -28,6 +47,12 @@ export default function Login() {
 
       <div className="flex justify-center items-center min-h-[calc(100vh-7rem)]">
         <div className="w-[80%]">
+          <div>
+            <p className="text-xl font-bold mb-2">로그인하기</p>
+          </div>
+
+          <div className="w-full h-[1px] bg-[#BABABA] mt-3 mb-8" />
+
           <div>
             <div className="text-[#8A8585] text-xs mb-2">아이디</div>
             <input
@@ -66,29 +91,9 @@ export default function Login() {
 
           <button
             className="w-full h-12 border-[1px] border-[#93BF66] bg-[#93BF66] rounded-lg text-white font-bold"
-            onClick={handleLoginBtn}>
+            onClick={handleLogin}>
             로그인 하기
           </button>
-
-          <div className="mt-20">
-            <button className="my-1 w-full h-12 border-[1px] border-[#848484] bg-white rounded-lg font-bold text-sm flex items-center">
-              <img src="image/Google_Logo.png" className="w-7 h-7 ml-7" />
-              <div className="flex-1">구글로 로그인하기</div>
-            </button>
-
-            <button className="my-2 w-full h-12 border-[1px] border-[#848484] bg-[#FEE500] rounded-lg font-bold text-sm flex items-center">
-              <img
-                src="image/KakaoTalk_Logo.png"
-                className="w-6 h-6 ml-[30px]"
-              />
-              <div className="flex-1">카카오톡으로 로그인하기</div>
-            </button>
-
-            <button className="my-1 w-full h-12 border-[1px] border-[#000000] bg-[#000000] rounded-lg font-bold text-sm text-white flex items-center">
-              <img src="image/Apple_Logo.png" className="w-7 h-7 ml-7" />
-              <div className="flex-1">애플로 로그인하기</div>
-            </button>
-          </div>
         </div>
       </div>
     </>
