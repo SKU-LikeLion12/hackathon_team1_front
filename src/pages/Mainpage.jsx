@@ -23,6 +23,7 @@ export default function Mainpage() {
   const [LifeModalOpen, setLifeModalOpen] = useState(false);
 
   const [initialData, setInitialData] = useState({
+    daysSinceQuit: null,
     cigarettesNotSmoked: null,
     savedMoney: null,
     increasedLifespan: null,
@@ -30,10 +31,6 @@ export default function Mainpage() {
     totalSpentMoney: null,
     tar: null,
   });
-
-  const navigateToStatus = () => {
-    navigate("/mainstatus");
-  };
 
   const handleAmountModal = () => {
     setAmountModalOpen(true);
@@ -49,22 +46,38 @@ export default function Mainpage() {
     document.body.style.overflow = "hidden";
   };
 
-  // 헬퍼 함수: 분을 년, 일, 시간으로 변환
-  const convertMinutesToYearsDaysHours = (minutes) => {
-    const totalHours = Math.floor(minutes / 60);
-    const years = Math.floor(totalHours / (24 * 365));
-    const days = Math.floor((totalHours % (24 * 365)) / 24);
-    const hours = totalHours % 24;
+  // 시간 데이터를 형식화하는 함수
+  const formatTime = (minutes) => {
+    const years = Math.floor(minutes / 518400); // 1년 = 518400분
+    const months = Math.floor((minutes % 518400) / 43200); // 1개월 = 43200분
+    const days = Math.floor((minutes % 43200) / 1440); // 1일 = 1440분
+    const hours = Math.floor((minutes % 1440) / 60); // 1시간 = 60분
+    const mins = minutes % 60; // 나머지 분
 
-    return `${years}년 ${days}일 ${hours}시간`;
+    let result = [];
+    if (years > 0) result.push(`${years}년`);
+    if (months > 0) result.push(`${months}개월`);
+    if (days > 0) result.push(`${days}일`);
+    if (hours > 0) result.push(`${hours}시간`);
+    if (mins > 0) result.push(`${mins}분`);
+
+    // 모든 값이 0일 경우 "0분" 반환
+    return result.length > 0 ? result.join(" ") : "0분";
   };
 
-  // 헬퍼 함수: 일 단위를 년, 일, 시간으로 변환
-  const convertDaysToYearsDaysHours = (days) => {
+  const convertDaysToYMD = (days) => {
     const years = Math.floor(days / 365);
-    const remainingDays = days % 365;
+    days %= 365;
+    const months = Math.floor(days / 30);
+    const remainingDays = days % 30;
 
-    return `${years}년 ${remainingDays}일`;
+    const parts = [];
+    if (years > 0) parts.push(`${years}년`);
+    if (months > 0) parts.push(`${months}개월`);
+    if (remainingDays > 0) parts.push(`${remainingDays}일`);
+
+    // 모든 값이 0일 경우 "0일" 반환
+    return parts.length > 0 ? parts.join(" ") : "0일";
   };
 
   useEffect(() => {
@@ -73,27 +86,26 @@ export default function Mainpage() {
         //받은 데이터를 어떻게 처리할건지
         const response = await api().get("/main/info");
 
+        console.log(response.data);
+
         // 응답 데이터에서 필요한 정보를 추출하여 상태 업데이트
-        const {
-          cigarettesNotSmoked,
-          savedMoney,
-          increasedLifespan,
-          totalSmokingDuration,
-          totalSpentMoney,
-          tar,
-        } = response.data; // 응답 데이터에서 필요한 필드 추출
+        const data = response.data;
 
         setInitialData({
-          cigarettesNotSmoked,
-          savedMoney,
-          increasedLifespan,
-          totalSmokingDuration,
-          totalSpentMoney,
-          tar,
+          daysSinceQuit: data[0],
+          cigarettesNotSmoked: data[1],
+          savedMoney: data[2], // 24
+          increasedLifespan: data[3],
+          totalSmokingDuration: data[4],
+          totalSpentMoney: data[5],
+          tar: data[6],
         });
       } catch (error) {
-        //에러
-        console.error("loadIitialData error : ", error);
+        if (error.response && error.response.status === 401) {
+          navigate("/login", { replace: true });
+        } else {
+          console.error("loadIitialData error : ", error);
+        }
       }
     };
 
@@ -105,42 +117,49 @@ export default function Mainpage() {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login", { replace: true });
+  const navigateToStatus = () => {
+    navigate("/mainstatus", {
+      state: {
+        daysSinceQuit: initialData.daysSinceQuit,
+      },
+    });
   };
 
   return (
     <>
       <div>
         {AmountModalOpen && (
-          <AmountModal AmountModalClose={setAmountModalOpen} />
+          <AmountModal
+            AmountModalClose={setAmountModalOpen}
+            savedMoney={initialData.savedMoney}
+          />
         )}
 
-        {LifeModalOpen && <LifeModal LifeModalClose={setLifeModalOpen} />}
+        {LifeModalOpen && (
+          <LifeModal
+            LifeModalClose={setLifeModalOpen}
+            increasedLifespan={formatTime(initialData.increasedLifespan)}
+          />
+        )}
 
         <Header />
 
-        <div className="w-full h-full bg-[#F5F2EB]">
+        <div className="w-full h-full bg-[#F5F2EB] select-none">
           <div className="flex justify-center items-center font-bold">
             <div className="w-[90%] mt-8 mb-20">
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 text-white h-200 w-200">
-                로그아웃
-              </button>
-
               <img src="/image/Mainpage_img.png" className="w-60 mx-auto" />
 
               <div className="text-center font-bold my-8">
-                <div className="text-2xl">1일차 00:05</div>
+                <div className="text-2xl">
+                  {formatTime(initialData.daysSinceQuit)}
+                </div>
                 <div>금연할 수 있다!</div>
               </div>
 
               <div className="w-full h-full bg-white rounded-2xl mb-3 px-5 pt-4 pb-1">
                 <div className="flex justify-between items-center mb-5">
                   <span className="font-bold text-lg">상태변화</span>
-                  <button onClick={navigateToStatus}>
+                  <button onClick={navigateToStatus} className="pl-10 py-2">
                     <IoIosArrowForward size={20} className="text-[#BABABA]" />
                   </button>
                 </div>
@@ -197,9 +216,7 @@ export default function Mainpage() {
                         늘어난 수명
                       </div>
                       <div className="text-sm">
-                        {convertMinutesToYearsDaysHours(
-                          initialData.increasedLifespan
-                        )}
+                        {formatTime(initialData.increasedLifespan)}
                       </div>
                     </div>
                   </div>
@@ -227,9 +244,7 @@ export default function Mainpage() {
                       총 흡연기간
                     </div>
                     <div className="text-sm">
-                      {convertDaysToYearsDaysHours(
-                        initialData.totalSmokingDuration
-                      )}
+                      {convertDaysToYMD(initialData.totalSmokingDuration)}
                     </div>
                   </div>
                 </div>

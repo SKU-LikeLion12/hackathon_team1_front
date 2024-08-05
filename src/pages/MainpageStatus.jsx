@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import ProgressBar from "../components/ProgressBar";
 import { CheckIcon, DotsIcon } from "../animation/icons/MainPageIcons";
+import { useLocation } from "react-router-dom";
 
 const timelineData = [
   { time: 20, description: "심박수가 정상으로 돌아옵니다." }, // 20분
@@ -46,35 +47,42 @@ const timelineData = [
 
 // 시간 데이터를 형식화하는 함수
 const formatTime = (minutes) => {
-  if (minutes < 60) {
-    return `${minutes}분`;
-  } else if (minutes < 1440) {
-    return `${Math.floor(minutes / 60)}시간`;
-  } else if (minutes < 43200) {
-    return `${Math.floor(minutes / 1440)}일`;
-  } else if (minutes < 518400) {
-    return `${Math.floor(minutes / 43200)}개월`;
-  } else {
-    return `${Math.floor(minutes / 518400)}년`;
-  }
+  const years = Math.floor(minutes / 518400); // 1년 = 518400분
+  const months = Math.floor((minutes % 518400) / 43200); // 1개월 = 43200분
+  const days = Math.floor((minutes % 43200) / 1440); // 1일 = 1440분
+  const hours = Math.floor((minutes % 1440) / 60); // 1시간 = 60분
+  const mins = minutes % 60; // 나머지 분
+
+  let result = [];
+  if (years > 0) result.push(`${years}년`);
+  if (months > 0) result.push(`${months}개월`);
+  if (days > 0) result.push(`${days}일`);
+  if (hours > 0) result.push(`${hours}시간`);
+  if (mins > 0) result.push(`${mins}분`);
+
+  return result.join(" ");
 };
 
 export default function MainpageStatus() {
-  const currentDuration = 1440; // 24시간을 분 단위로 변경
+  const location = useLocation();
+  const { daysSinceQuit } = location.state || {};
+
   return (
     <>
       <div>
         <Header />
 
-        <div className="max-w-lg mx-auto px-6 py-8">
+        <div className="max-w-lg mx-auto px-6 py-8 select-none">
           <div className="text-2xl mb-6">
-            금연한지 <span className="font-bold">24시간</span> <br />
+            금연한지{" "}
+            <span className="font-bold">{formatTime(daysSinceQuit)}</span>{" "}
+            <br />
             경과하였습니다.
           </div>
           <div className="relative">
             {timelineData.map((item, index) => {
               const percentage = Math.min(
-                (currentDuration / item.time) * 100,
+                (daysSinceQuit / item.time) * 100,
                 100
               );
               return (

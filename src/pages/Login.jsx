@@ -36,7 +36,7 @@ export default function Login() {
         }
       } catch (error) {
         console.error("Login.jsx handleLogin error : ", error);
-        alert("오류 발생");
+        alert("로그인 실패");
       }
     }
   };

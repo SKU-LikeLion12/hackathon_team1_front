@@ -36,8 +36,7 @@ function Post() {
 
   const saveBoard = async () => {
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("content", content);
+    formData.append("request", JSON.stringify({ title, content }));
     if (image) {
       formData.append("image", image);
     }
@@ -46,6 +45,7 @@ function Post() {
       const response = await api().post("/article/add", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       console.log("Response data:s", response.data);
