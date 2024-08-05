@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header.jsx";
+import Footer from "../components/Footer.jsx";
+
 import { IoIosArrowForward } from "react-icons/io";
 import { PiCigaretteFill } from "react-icons/pi";
 import { FaWonSign } from "react-icons/fa";
@@ -99,7 +101,7 @@ export default function Mainpage() {
     if (token) {
       loadInitialData();
     } else {
-      //navigate("/login", { replace: true });
+      navigate("/login", { replace: true });
     }
   }, []);
 
@@ -121,7 +123,7 @@ export default function Mainpage() {
 
         <div className="w-full h-full bg-[#F5F2EB]">
           <div className="flex justify-center items-center font-bold">
-            <div className="w-[90%] my-8">
+            <div className="w-[90%] mt-8 mb-20">
               <button
                 onClick={handleLogout}
                 className="bg-red-500 text-white h-200 w-200">
@@ -260,6 +262,7 @@ export default function Mainpage() {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </>
   );

@@ -1,12 +1,10 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
-import axios from "axios";
 import { useEffect } from "react";
 
 import Mainpage from "./pages/Mainpage";
 import Mypage from "./pages/Mypage";
 import MainStatus from "./pages/MainpageStatus";
-import VerticalProgressTracker from "./pages/VerticalProgressTracker";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import BasicInfo from "./pages/BasicInfo";
