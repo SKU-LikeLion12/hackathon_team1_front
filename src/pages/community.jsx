@@ -81,7 +81,7 @@ function Community() {
       {/* 내용 */}
       <main className="flex-1 overflow-y-auto pb-32 pt-20">
         <ul className="divide-y">
-          {currentPosts.map((post, index) => (
+          {/* {currentPosts.map((post, index) => (
             <li key={index} className="py-2 px-3">
               <h3 className="font-semibold text-sm">{post.title}</h3>
               <p className="text-xs text-gray-500">{post.subtitle}</p>
@@ -95,6 +95,30 @@ function Community() {
                 <span>{post.timeAgo}</span>
                 <span className="mx-1">|</span>
                 <span>{post.author}</span>
+              </div>
+            </li>
+          ))} */}
+          {currentPosts.map((post, index) => (
+            <li
+              key={post.id}
+              className="py-2 px-3"
+              onClick={() => goToPostDetail(post.id)}>
+              <h3 className="font-semibold text-sm">{post.title}</h3>
+              <p className="text-xs text-gray-500">
+                {post.content.substring(0, 50)}...
+              </p>
+              <div className="flex items-center text-xs text-gray-400 mt-0.5">
+                {post.commentCount > 0 && (
+                  <>
+                    <span className="text-[#93BF66]">
+                      💬 {post.commentCount}
+                    </span>
+                    <span className="mx-1">|</span>
+                  </>
+                )}
+                <span>{new Date(post.createDate).toLocaleString()}</span>
+                <span className="mx-1">|</span>
+                <span>{post.writer}</span>
               </div>
             </li>
           ))}

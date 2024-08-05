@@ -41,7 +41,7 @@ function PostDetail() {
 
   const fetchComments = async () => {
     try {
-      const response = await api.get(`/comment/article/${postId}`);
+      const response = await api().get(`/comment/article/${postId}`);
       setComments(response.data);
     } catch (error) {
       console.error("댓글을 불러오는데 실패했습니다:", error);
@@ -56,7 +56,7 @@ function PostDetail() {
     if (newComment.trim() === "") return;
 
     try {
-      await api.post(
+      await api().post(
         `/comment`,
         {
           articleId: postId,
@@ -85,7 +85,7 @@ function PostDetail() {
 
   const handleEditCommentSubmit = async (id) => {
     try {
-      await api.put(
+      await api().put(
         `/comment`,
         {
           commentId: id,

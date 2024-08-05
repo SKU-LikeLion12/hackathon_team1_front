@@ -30,9 +30,6 @@ function Post() {
       case "content":
         setContent(value);
         break;
-      case "createdBy":
-        setCreatedBy(value);
-        break;
       default:
         break;
     }
@@ -54,6 +51,50 @@ function Post() {
   //     alert('등록 중 오류가 발생했습니다.');
   //   }
   // };
+  // 여기부터
+  // const saveBoard = async () => {
+  //   const formData = new FormData();
+  //   formData.append("request", JSON.stringify({ title, content }));
+  //   if (image) {
+  //     formData.append("image", image);
+  //   }
+
+  //   try {
+  //     const response = await api().post("/article/add", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`, // 토큰을 로컬 스토리지에서 가져옴
+  //       },
+  //     });
+  //     alert("게시물이 등록되었습니다.");
+  //     navigate("/community");
+  //   } catch (error) {
+  //     console.error("게시물 등록 중 오류가 발생했습니다:", error);
+  //     alert("게시물 등록 중 오류가 발생했습니다.");
+  //   }
+  // };
+
+  // const saveBoard = async () => {
+  //   const formData = new FormData();
+  //   formData.append("request", JSON.stringify({ title, content }));
+  //   if (image) {
+  //     formData.append("image", image);
+  //   }
+
+  //   try {
+  //     const response = await api().post("/article/add", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     });
+  //     alert("게시물이 등록되었습니다.");
+  //     navigate("/community");
+  //   } catch (error) {
+  //     console.error("게시물 등록 중 오류가 발생했습니다:", error);
+  //     alert("게시물 등록 중 오류가 발생했습니다.");
+  //   }
+  // };
 
   const saveBoard = async () => {
     const formData = new FormData();
@@ -69,11 +110,17 @@ function Post() {
           Authorization: `Bearer ${localStorage.getItem("token")}`, // 토큰을 로컬 스토리지에서 가져옴
         },
       });
+      console.log("Response data:", response.data);
       alert("게시물이 등록되었습니다.");
       navigate("/community");
     } catch (error) {
-      console.error("게시물 등록 중 오류가 발생했습니다:", error);
-      alert("게시물 등록 중 오류가 발생했습니다.");
+      console.error(
+        "게시물 등록 중 오류가 발생했습니다:",
+        error.response || error
+      );
+      alert(
+        `게시물 등록 중 오류가 발생했습니다: ${error.response?.data?.message || error.message}`
+      );
     }
   };
 
@@ -110,14 +157,6 @@ function Post() {
           value={title}
           onChange={onChange}
           className="w-full border-b pb-2 mb-4 text-lg focus:outline-none"
-        />
-        <input
-          type="text"
-          name="createdBy"
-          placeholder="작성자"
-          value={createdBy}
-          onChange={onChange}
-          className="w-full border-b pb-2 mb-4 focus:outline-none"
         />
         <textarea
           name="content"
