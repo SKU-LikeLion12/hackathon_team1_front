@@ -72,13 +72,10 @@ export default function FindId() {
       if (response.status === 200) {
         const isAuthNumAvailable = response.data;
 
-        //나중에 어떻게 값이 들어오는지 테스트
-        alert(isAuthNumAvailable);
-
         //200 상태 중, 성공 & 실패에 따른 문구 출력을 위함
-        if (isAuthNumAvailable === true) {
+        if (isAuthNumAvailable === "인증이 성공했습니다.") {
           setAuthNumValid(true);
-        } else if (isAuthNumAvailable === false) {
+        } else if (isAuthNumAvailable === "인증이 실패했습니다.") {
           setAuthNumValid(false);
         }
       } else {
@@ -111,20 +108,21 @@ export default function FindId() {
             },
             replace: true, // 뒤로가기 비활성화
           });
-        } else if (response.status === 404) {
-          if (response.data === false) {
-            navigate("/findfail", {
-              state: {
-                name: name,
-              },
-              replace: true, // 뒤로가기 비활성화
-            });
-          }
         } else {
-          console.log("validateAuthNum response is not 200 : ", response);
+          console.log(
+            "validateAuthNum response is not 200 : ",
+            response.status,
+            response.data
+          );
         }
       } catch (error) {
-        console.error("response error : ", error);
+        if (error.response && error.response.status === 404) {
+          alert("가입되지 않은 이메일입니다.");
+          navigate("/login", { replace: true });
+        } else {
+          console.error("response error : ", error);
+          alert("서버 오류가 발생했습니다. 다시 시도해주세요."); // 추가적인 오류 처리
+        }
       }
     } else {
       alert("올바른 형식으로 입력해주세요.");

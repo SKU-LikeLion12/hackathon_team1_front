@@ -7,6 +7,10 @@ export default function BasicInfo() {
   const navigate = useNavigate();
   const { name, email, id, pw } = location.state || {};
 
+  useEffect(() => {
+    console.log(name, email, id, pw);
+  }, []);
+
   const [quitDate, setQuitDate] = useState("");
   const [smokeDate, setSmokeDate] = useState("");
   const [minQuitDate, setMinQuitDate] = useState("");
@@ -81,6 +85,10 @@ export default function BasicInfo() {
     //모든값이 유효한 경우 가입 가능
 
     if (
+      name &&
+      id &&
+      pw &&
+      email &&
       quitDate &&
       smokeDate &&
       dailyCountValid &&
@@ -105,19 +113,27 @@ export default function BasicInfo() {
       };
 
       try {
-        const response = await api().post("/url", data);
+        const response = await api().post("/member/add", data);
 
-        if (response.status === 200 && response.data.token) {
-          const token = response.data.token;
-          localStorage.setItem("token", token);
+        if (response.status === 201) {
+          if (response.data.token) {
+            const token = response.data.token;
+            localStorage.setItem("token", token);
 
-          navigate("/", { replace: true });
-        } else {
-          alert("회원가입에 실패했습니다.");
-          navigate("/signup", { replace: true });
+            navigate("/main", { replace: true });
+          } else {
+            console.log("201상태, token 발급 실패");
+            navigate("/login", { replace: true });
+          }
         }
       } catch (error) {
-        console.error("handleSignUp response error : ", error);
+        alert("회원가입에 실패했습니다.");
+        navigate("/signup", { replace: true });
+        console.error(
+          "handleSignUp response error : ",
+          error.response.status,
+          error
+        );
       }
     } else {
       alert("올바른 값을 입력해주세요.");

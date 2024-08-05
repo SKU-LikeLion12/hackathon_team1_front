@@ -103,6 +103,11 @@ export default function Mainpage() {
     }
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login", { replace: true });
+  };
+
   return (
     <>
       <div>
@@ -117,6 +122,12 @@ export default function Mainpage() {
         <div className="w-full h-full bg-[#F5F2EB]">
           <div className="flex justify-center items-center font-bold">
             <div className="w-[90%] my-8">
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 text-white h-200 w-200">
+                로그아웃
+              </button>
+
               <img src="/image/Mainpage_img.png" className="w-60 mx-auto" />
 
               <div className="text-center font-bold my-8">

@@ -73,13 +73,10 @@ export default function ResetPasswordAuth() {
       if (response.status === 200) {
         const isAuthNumAvailable = response.data;
 
-        //나중에 어떻게 값이 들어오는지 테스트
-        alert(isAuthNumAvailable);
-
         //200 상태 중, 성공 & 실패에 따른 문구 출력을 위함
-        if (isAuthNumAvailable === true) {
+        if (isAuthNumAvailable === "인증이 성공했습니다.") {
           setAuthNumValid(true);
-        } else if (isAuthNumAvailable === false) {
+        } else if (isAuthNumAvailable === "인증이 실패했습니다.") {
           setAuthNumValid(false);
         }
       } else {
@@ -103,16 +100,22 @@ export default function ResetPasswordAuth() {
       try {
         const response = await api().post("/member/findPassword", data);
 
-        if (response.status === 200 && response.data === true) {
+        if (response.status === 200) {
           alert("이메일로 임시 비밀번호를 발송했습니다.");
           navigate("/login", { replace: true });
-        } else if (response.status === 400 && response.data === false) {
-          alert("이메일 또는 아이디가 잘못되었습니다.");
         } else {
-          console.error("response status is not 200 & 400 : ", response);
+          console.error(
+            "response status is not 200 : ",
+            response.status,
+            response.data
+          );
         }
       } catch (error) {
-        console.error("requestAuthNum response error : ", error);
+        if (error.response && error.response.status === 400) {
+          alert("이메일 또는 아이디가 잘못되었습니다.");
+        } else {
+          console.error("requestAuthNum response error : ", error);
+        }
       }
     } else {
       alert("올바른 형식으로 입력해주세요.");

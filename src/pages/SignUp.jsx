@@ -51,9 +51,7 @@ export default function SignUpPage() {
   //이메일 중복 확인
   const updateEmailDuplication = async () => {
     try {
-      const response = await api().get("/member/email", {
-        params: { emailCheck: email },
-      });
+      const response = await api().get(`/member/email/${email}`);
 
       if (response.status === 200) {
         const isEmailAvailable = response.data; // 서버에서 반환한 true 또는 false 값
@@ -108,12 +106,10 @@ export default function SignUpPage() {
       if (response.status === 200) {
         const isAuthNumAvailable = response.data;
 
-        alert(isAuthNumAvailable);
-
         //200 상태 중, 성공 & 실패에 따른 문구 출력을 위함
-        if (isAuthNumAvailable === true) {
+        if (isAuthNumAvailable === "인증이 성공했습니다.") {
           setAuthNumValid(true);
-        } else if (isAuthNumAvailable === false) {
+        } else if (isAuthNumAvailable === "인증이 실패했습니다.") {
           setAuthNumValid(false);
         }
       } else {
@@ -142,9 +138,7 @@ export default function SignUpPage() {
   const updateIdDuplication = async () => {
     if (idValid) {
       try {
-        const response = await api().get("/member/id", {
-          params: { userId: id },
-        });
+        const response = await api().get(`/member/id/${id}`);
 
         if (response.status === 200) {
           const isIdAvailable = response.data; // 서버에서 반환한 true 또는 false 값
@@ -220,11 +214,16 @@ export default function SignUpPage() {
   }, [pw, checkPw]);
 
   useEffect(() => {
-    //중복확인을 마친 이후 시점에, email이 변경되면 다시 중복확인 진행하도록
     setIsEmailDuplicate(false);
+  }, [email]);
+
+  useEffect(() => {
     setIsIdDuplicate(false);
+  }, [id]);
+
+  useEffect(() => {
     setAuthNumValid(null);
-  }, [email, id, authNum]);
+  }, [authNum]);
 
   return (
     <>

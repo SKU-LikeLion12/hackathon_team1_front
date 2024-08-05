@@ -30,7 +30,7 @@ export default function Login() {
           const token = response.data.token;
           localStorage.setItem("token", token);
 
-          navigate("/", { replace: true });
+          navigate("/main", { replace: true });
         } else {
           alert("유효하지 않은 아이디, 비밀번호입니다.");
         }
