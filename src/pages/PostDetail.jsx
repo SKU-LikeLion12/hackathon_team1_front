@@ -21,6 +21,33 @@ function PostDetail() {
     fetchComments();
   }, [postId]);
 
+  // const fetchPostData = async () => {
+  //   setIsLoading(true);
+  //   setError(null);
+  //   try {
+  //     const response = await api().get(`/article/${postId}`);
+  //     if (response.data) {
+  //       setPostData(response.data);
+  //     } else {
+  //       setError("게시물 데이터가 비어있습니다.");
+  //     }
+  //   } catch (error) {
+  //     console.error("게시물을 불러오는데 실패했습니다:", error);
+  //     setError("게시물을 불러오는데 실패했습니다.");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  // const fetchComments = async () => {
+  //   try {
+  //     const response = await api().get(`/comment/article/${postId}`);
+  //     setComments(response.data);
+  //   } catch (error) {
+  //     console.error("댓글을 불러오는데 실패했습니다:", error);
+  //   }
+  // };
+
   const fetchPostData = async () => {
     setIsLoading(true);
     setError(null);
@@ -32,7 +59,10 @@ function PostDetail() {
         setError("게시물 데이터가 비어있습니다.");
       }
     } catch (error) {
-      console.error("게시물을 불러오는데 실패했습니다:", error);
+      console.error(
+        "게시물을 불러오는데 실패했습니다:",
+        error.response ? error.response.data : error.message
+      );
       setError("게시물을 불러오는데 실패했습니다.");
     } finally {
       setIsLoading(false);
@@ -42,9 +72,16 @@ function PostDetail() {
   const fetchComments = async () => {
     try {
       const response = await api().get(`/comment/article/${postId}`);
-      setComments(response.data);
+      if (response.data) {
+        setComments(response.data);
+      } else {
+        setError("댓글 데이터가 비어있습니다.");
+      }
     } catch (error) {
-      console.error("댓글을 불러오는데 실패했습니다:", error);
+      console.error(
+        "댓글을 불러오는데 실패했습니다:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
@@ -146,10 +183,8 @@ function PostDetail() {
                         className="flex-1 p-2 border rounded-md focus:outline-none"
                       />
                       <button
-                        onClick={() =>
-                          handleEditCommentSubmit(comment.commentId)
-                        }
-                        className="ml-2 text-blue-500">
+                        onClick={() => handleEditCommentSubmit(comment.id)}
+                        className="ml-2 text-[#93BF66]">
                         <BsSend className="text-xl" />
                       </button>
                     </div>
@@ -168,7 +203,7 @@ function PostDetail() {
                               comment.content
                             )
                           }
-                          className="text-xs text-[#B2B2B2] mt-1">
+                          className="text-xs text-[#93BF66] mt-1">
                           수정
                         </button>
                       </div>

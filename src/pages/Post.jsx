@@ -8,7 +8,6 @@ function Post() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [createdBy, setCreatedBy] = useState("");
   const [image, setImage] = useState(null);
 
   const handleImageUpload = (e) => {
@@ -35,34 +34,6 @@ function Post() {
     }
   };
 
-  // const saveBoard = async () => {
-  //   const formData = new FormData();
-  //   formData.append("title", title);
-  //   formData.append("content", content);
-  //   if (image) {
-  //     formData.append("image", image);
-  //   }
-
-  //   try {
-  //     const response = await api().post("/article/add", formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
-  //     console.log("Response data:", response.data);
-  //     alert("게시물이 등록되었습니다.");
-  //     navigate("/community");
-  //   } catch (error) {
-  //     console.error(
-  //       "게시물 등록 중 오류가 발생했습니다:",
-  //       error.response || error
-  //     );
-  //     alert(
-  //       `게시물 등록 중 오류가 발생했습니다: ${error.response?.data?.message || error.message}`
-  //     );
-  //   }
-  // };
-
   const saveBoard = async () => {
     const formData = new FormData();
     formData.append("title", title);
@@ -77,18 +48,17 @@ function Post() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("Response data:", response.data);
+      console.log("Response data:s", response.data);
       alert("게시물이 등록되었습니다.");
       navigate("/community");
     } catch (error) {
       console.error(
         "게시물 등록 중 오류가 발생했습니다:",
-        error.response?.data || error.message
+        error.response || error
       );
-
-      const errorMessage =
-        error.response?.data?.message || "게시물 등록 중 오류가 발생했습니다.";
-      alert(errorMessage);
+      alert(
+        `게시물 등록 중 오류가 발생했습니다: ${error.response?.data?.message || error.message}`
+      );
     }
   };
 
