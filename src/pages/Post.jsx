@@ -8,7 +8,6 @@ function Post() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [createdBy, setCreatedBy] = useState("");
   const [image, setImage] = useState(null);
 
   const handleImageUpload = (e) => {
@@ -35,67 +34,6 @@ function Post() {
     }
   };
 
-  // const saveBoard = async () => {
-  //   const boardData = {
-  //     title,
-  //     createdBy,
-  //     contents: content,
-  //   };
-
-  //   try {
-  //     await axios.post('//localhost:8080/community', boardData);
-  //     alert('등록되었습니다.');
-  //     navigate('/community');
-  //   } catch (error) {
-  //     console.error('Error saving board:', error);
-  //     alert('등록 중 오류가 발생했습니다.');
-  //   }
-  // };
-  // 여기부터
-  // const saveBoard = async () => {
-  //   const formData = new FormData();
-  //   formData.append("request", JSON.stringify({ title, content }));
-  //   if (image) {
-  //     formData.append("image", image);
-  //   }
-
-  //   try {
-  //     const response = await api().post("/article/add", formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`, // 토큰을 로컬 스토리지에서 가져옴
-  //       },
-  //     });
-  //     alert("게시물이 등록되었습니다.");
-  //     navigate("/community");
-  //   } catch (error) {
-  //     console.error("게시물 등록 중 오류가 발생했습니다:", error);
-  //     alert("게시물 등록 중 오류가 발생했습니다.");
-  //   }
-  // };
-
-  // const saveBoard = async () => {
-  //   const formData = new FormData();
-  //   formData.append("request", JSON.stringify({ title, content }));
-  //   if (image) {
-  //     formData.append("image", image);
-  //   }
-
-  //   try {
-  //     const response = await api().post("/article/add", formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //     });
-  //     alert("게시물이 등록되었습니다.");
-  //     navigate("/community");
-  //   } catch (error) {
-  //     console.error("게시물 등록 중 오류가 발생했습니다:", error);
-  //     alert("게시물 등록 중 오류가 발생했습니다.");
-  //   }
-  // };
-
   const saveBoard = async () => {
     const formData = new FormData();
     formData.append("request", JSON.stringify({ title, content }));
@@ -110,7 +48,7 @@ function Post() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log("Response data:", response.data);
+      console.log("Response data:s", response.data);
       alert("게시물이 등록되었습니다.");
       navigate("/community");
     } catch (error) {
