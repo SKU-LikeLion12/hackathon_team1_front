@@ -163,6 +163,16 @@ function PostDetail() {
           <p className="text-sm text-gray-600">
             {postData.createDate} | {postData.writer}
           </p>
+          {postData.image && (
+            <div className="mt-4 relative">
+              <img
+                src={`data:image/png;base64,${postData.image}`}
+                alt="Selected"
+                className="w-full h-40 object-cover rounded"
+              />
+            </div>
+          )}
+
           <p className="mt-2">{postData.content}</p>
           <div className="flex items-center mt-4 text-[#93BF66]">
             <FaRegComment className="mr-2" />
