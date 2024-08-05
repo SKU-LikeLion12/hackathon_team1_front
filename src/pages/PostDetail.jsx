@@ -21,33 +21,6 @@ function PostDetail() {
     fetchComments();
   }, [postId]);
 
-  // const fetchPostData = async () => {
-  //   setIsLoading(true);
-  //   setError(null);
-  //   try {
-  //     const response = await api().get(`/article/${postId}`);
-  //     if (response.data) {
-  //       setPostData(response.data);
-  //     } else {
-  //       setError("게시물 데이터가 비어있습니다.");
-  //     }
-  //   } catch (error) {
-  //     console.error("게시물을 불러오는데 실패했습니다:", error);
-  //     setError("게시물을 불러오는데 실패했습니다.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const fetchComments = async () => {
-  //   try {
-  //     const response = await api().get(`/comment/article/${postId}`);
-  //     setComments(response.data);
-  //   } catch (error) {
-  //     console.error("댓글을 불러오는데 실패했습니다:", error);
-  //   }
-  // };
-
   const fetchPostData = async () => {
     setIsLoading(true);
     setError(null);
@@ -141,6 +114,24 @@ function PostDetail() {
     }
   };
 
+  const handleDeleteComment = async (commentId) => {
+    if (window.confirm("이 댓글을 삭제하시겠습니까?")) {
+      try {
+        await api().delete("/comment", {
+          data: {
+            commentId: commentId,
+          },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        fetchComments(); // 댓글 목록 새로고침
+      } catch (error) {
+        console.error("댓글 삭제에 실패했습니다:", error);
+      }
+    }
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -182,10 +173,10 @@ function PostDetail() {
 
         <ul className="divide-y">
           {comments.map((comment) => (
-            <li key={comment.commentId} className="py-2">
+            <li key={comment.id} className="py-2">
               <div className="flex items-start">
                 <div className="flex-1">
-                  {editComment.id === comment.commentId ? (
+                  {editComment.id === comment.id ? (
                     <div className="flex items-start">
                       <textarea
                         value={editComment.text}
@@ -208,13 +199,15 @@ function PostDetail() {
                       <div className="flex space-x-2">
                         <button
                           onClick={() =>
-                            handleEditComment(
-                              comment.commentId,
-                              comment.content
-                            )
+                            handleEditComment(comment.id, comment.content)
                           }
                           className="text-xs text-[#93BF66] mt-1">
                           수정
+                        </button>
+                        <button
+                          onClick={() => handleDeleteComment(comment.id)}
+                          className="text-xs text-[#93BF66] mt-1">
+                          삭제
                         </button>
                       </div>
                     </>
