@@ -47,19 +47,48 @@ export default function Mainpage() {
     document.body.style.overflow = "hidden";
   };
 
-  /*   useEffect(() => {
+  // 헬퍼 함수: 분을 년, 일, 시간으로 변환
+  const convertMinutesToYearsDaysHours = (minutes) => {
+    const totalHours = Math.floor(minutes / 60);
+    const years = Math.floor(totalHours / (24 * 365));
+    const days = Math.floor((totalHours % (24 * 365)) / 24);
+    const hours = totalHours % 24;
+
+    return `${years}년 ${days}일 ${hours}시간`;
+  };
+
+  // 헬퍼 함수: 일 단위를 년, 일, 시간으로 변환
+  const convertDaysToYearsDaysHours = (days) => {
+    const years = Math.floor(days / 365);
+    const remainingDays = days % 365;
+
+    return `${years}년 ${remainingDays}일`;
+  };
+
+  useEffect(() => {
     const loadInitialData = async () => {
       try {
         //받은 데이터를 어떻게 처리할건지
         const response = await api().get("/main/info");
-        setNoSmokedCigas(response.data.noSmokedCigas);
-        setSmokeInfo(response.data.smokeinfo);
-        setSpentAmount(response.data.setSpentAmount);
-        setTar(response.data.tar);
-        setIncreasedLifespan(response.data.setIncreasedLifespan);
-        setSavedAmount(response.data.setSavedAmount);
 
-        // 필요한 데이터만 빼서 출력
+        // 응답 데이터에서 필요한 정보를 추출하여 상태 업데이트
+        const {
+          cigarettesNotSmoked,
+          savedMoney,
+          increasedLifespan,
+          totalSmokingDuration,
+          totalSpentMoney,
+          tar,
+        } = response.data; // 응답 데이터에서 필요한 필드 추출
+
+        setInitialData({
+          cigarettesNotSmoked,
+          savedMoney,
+          increasedLifespan,
+          totalSmokingDuration,
+          totalSpentMoney,
+          tar,
+        });
       } catch (error) {
         //에러
         console.error("loadIitialData error : ", error);
@@ -72,7 +101,7 @@ export default function Mainpage() {
     } else {
       //navigate("/login", { replace: true });
     }
-  }, []); */
+  }, []);
 
   return (
     <>
@@ -155,7 +184,9 @@ export default function Mainpage() {
                         늘어난 수명
                       </div>
                       <div className="text-sm">
-                        {initialData.increasedLifespan}
+                        {convertMinutesToYearsDaysHours(
+                          initialData.increasedLifespan
+                        )}
                       </div>
                     </div>
                   </div>
@@ -183,7 +214,9 @@ export default function Mainpage() {
                       총 흡연기간
                     </div>
                     <div className="text-sm">
-                      {initialData.totalSmokingDuration}
+                      {convertDaysToYearsDaysHours(
+                        initialData.totalSmokingDuration
+                      )}
                     </div>
                   </div>
                 </div>
