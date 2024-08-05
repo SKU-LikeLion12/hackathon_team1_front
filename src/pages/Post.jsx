@@ -107,7 +107,7 @@ function Post() {
       const response = await api().post("/article/add", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // 토큰을 로컬 스토리지에서 가져옴
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       console.log("Response data:", response.data);
