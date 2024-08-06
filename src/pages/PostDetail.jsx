@@ -153,6 +153,9 @@ function PostDetail() {
     }
     try {
       await api().put(`/article/${postId}`, formData, {
+        data: {
+          articleId: postId,
+        },
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
