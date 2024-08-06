@@ -243,130 +243,132 @@ export default function EditMypage() {
           <div className="font-bold text-xl">마이페이지</div>
         </div>
 
-        <div className="flex flex-col items-center mx-auto mt-4">
-          {imagePreview === null ? (
-            <PiUserCircleThin size={90} />
-          ) : (
-            <img
-              src={imagePreview}
-              alt="Profile"
-              className="w-24 h-24 rounded-full"
-            />
-          )}
-          <label
-            htmlFor="file-upload"
-            className="text-sky-600 text-sm mt-2 cursor-pointer">
-            사진수정
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-        </div>
-
-        <div className="flex flex-col justify-center items-center mt-10">
+        <div className="flex flex-col items-center justify-center w-full min-h-[calc(100vh-7rem)]">
           <div className="w-[85%]">
-            <div className="w-full border-[0.5px] mb-5"></div>
-
-            <div className="flex items-center">
-              <div className="flex-1 font-bold">이름</div>
-              <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
-                <input
-                  type="text"
-                  value={userName}
-                  onChange={handleName}
-                  className="text-center"></input>
-              </div>
+            <div className="flex flex-col items-center mt-4">
+              {imagePreview === null ? (
+                <PiUserCircleThin size={90} />
+              ) : (
+                <img
+                  src={imagePreview}
+                  alt="Profile"
+                  className="w-24 h-24 rounded-full"
+                />
+              )}
+              <label
+                htmlFor="file-upload"
+                className="text-sky-600 text-sm mt-2 cursor-pointer">
+                사진수정
+              </label>
+              <input
+                id="file-upload"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
             </div>
 
-            <div className="flex items-center">
-              <div className="flex-1 font-bold">이메일</div>
-              <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
-                <input
-                  type="text"
-                  value={editEmail}
-                  onChange={handleEmail}
-                  className="text-center"></input>
-              </div>
-            </div>
+            <div className="w-full mt-10">
+              <div className="w-full border-[0.5px] mb-5"></div>
 
-            <div className="flex items-center">
-              <div className="flex-1 font-bold">금연 시작일시</div>
-              <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3 w-full">
-                <input
-                  type="date"
-                  value={quitDate}
-                  max={maxDate}
-                  min={minQuitDate}
-                  onChange={handleQuitDate}
-                  className="text-center w-full"></input>
+              <div className="flex items-center">
+                <div className="flex-1 font-bold">이름</div>
+                <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
+                  <input
+                    type="text"
+                    value={userName}
+                    onChange={handleName}
+                    className="text-center"></input>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center">
-              <div className="flex-1 font-bold">흡연 시작일시</div>
-              <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
-                <input
-                  type="date"
-                  value={smokeDate}
-                  max={maxSmokeDate}
-                  onChange={handleSmokeDate}
-                  className="text-center w-full"></input>
+              <div className="flex items-center">
+                <div className="flex-1 font-bold">이메일</div>
+                <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
+                  <input
+                    type="text"
+                    value={editEmail}
+                    onChange={handleEmail}
+                    className="text-center"></input>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center">
-              <div className="flex-1 font-bold">하루 흡연량(개비)</div>
-              <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
-                <input
-                  type="text"
-                  value={dailyCount}
-                  onChange={handleDailyCount}
-                  className="text-center"></input>
+              <div className="flex items-center">
+                <div className="flex-1 font-bold">금연 시작일시</div>
+                <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3 w-full">
+                  <input
+                    type="date"
+                    value={quitDate}
+                    max={maxDate}
+                    min={minQuitDate}
+                    onChange={handleQuitDate}
+                    className="text-center w-full"></input>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center">
-              <div className="flex-1 font-bold">담배 한 값당 개비수</div>
-              <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
-                <input
-                  type="text"
-                  value={cigarsPerPack}
-                  onChange={handleCigarsPerPack}
-                  className="text-center"></input>
+              <div className="flex items-center">
+                <div className="flex-1 font-bold">흡연 시작일시</div>
+                <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
+                  <input
+                    type="date"
+                    value={smokeDate}
+                    max={maxSmokeDate}
+                    onChange={handleSmokeDate}
+                    className="text-center w-full"></input>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center">
-              <div className="flex-1 font-bold">담배 한 갑 당 가격</div>
-              <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
-                <input
-                  type="text"
-                  value={cigarPrice}
-                  onChange={handleCigarPrice}
-                  className="text-center"></input>
+              <div className="flex items-center">
+                <div className="flex-1 font-bold">하루 흡연량(개비)</div>
+                <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
+                  <input
+                    type="text"
+                    value={dailyCount}
+                    onChange={handleDailyCount}
+                    className="text-center"></input>
+                </div>
               </div>
-            </div>
 
-            <div className="flex items-center">
-              <div className="flex-1 font-bold">타르(담배)</div>
-              <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
-                <input
-                  type="text"
-                  value={tarCount}
-                  onChange={handleTar}
-                  className="text-center"></input>
+              <div className="flex items-center">
+                <div className="flex-1 font-bold">담배 한 값당 개비수</div>
+                <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
+                  <input
+                    type="text"
+                    value={cigarsPerPack}
+                    onChange={handleCigarsPerPack}
+                    className="text-center"></input>
+                </div>
               </div>
-            </div>
 
-            <div className="flex justify-center mt-16">
-              <button
-                className="border-2 rounded-lg w-[80%] h-14 border-t-0 border-r-0 border-l-0 border-b-0 bg-[#93BF66] text-white font-bold mt-5"
-                onClick={handleEdit}>
-                수정완료
-              </button>
+              <div className="flex items-center">
+                <div className="flex-1 font-bold">담배 한 갑 당 가격</div>
+                <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
+                  <input
+                    type="text"
+                    value={cigarPrice}
+                    onChange={handleCigarPrice}
+                    className="text-center"></input>
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <div className="flex-1 font-bold">타르(담배)</div>
+                <div className="flex-1 border-b-[1px] border-[#BABABA] text-center py-3">
+                  <input
+                    type="text"
+                    value={tarCount}
+                    onChange={handleTar}
+                    className="text-center"></input>
+                </div>
+              </div>
+
+              <div className="flex justify-center mt-16">
+                <button
+                  className="border-2 rounded-lg w-[80%] h-14 border-t-0 border-r-0 border-l-0 border-b-0 bg-[#93BF66] text-white font-bold mt-5"
+                  onClick={handleEdit}>
+                  수정완료
+                </button>
+              </div>
             </div>
           </div>
         </div>
