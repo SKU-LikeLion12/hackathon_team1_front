@@ -118,7 +118,7 @@ function Post() {
         {image && (
           <div className="mt-4 relative">
             <img
-              src={URL.createObjectURL(image)}
+              src={`data:image/png;base64,${image}`}
               alt="Selected"
               className="w-full h-40 object-cover rounded"
             />

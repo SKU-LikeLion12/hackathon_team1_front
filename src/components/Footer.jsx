@@ -40,7 +40,6 @@ export default function Footer() {
           <FaHome className="text-lg mb-0.5" />
           <span className="text-xs">홈</span>
         </button>
-
         <button
           className="flex flex-col items-center"
           onClick={navigateToCommunity}>
