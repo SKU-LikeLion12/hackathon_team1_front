@@ -10,6 +10,8 @@ function PostDetail() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editComment, setEditComment] = useState({ id: null, text: "" });
+  const [isEditingPost, setIsEditingPost] = useState(false);
+  const [editedPostContent, setEditedPostContent] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -28,6 +30,7 @@ function PostDetail() {
       const response = await api().get(`/article/${postId}`);
       if (response.data) {
         setPostData(response.data);
+        setEditedPostContent(response.data.content);
       } else {
         setError("게시물 데이터가 비어있습니다.");
       }
@@ -56,6 +59,10 @@ function PostDetail() {
         error.response ? error.response.data : error.message
       );
     }
+  };
+
+  const moveBack = () => {
+    navigate(-1);
   };
 
   const handleNewCommentChange = (e) => {
@@ -132,6 +139,47 @@ function PostDetail() {
     }
   };
 
+  const handleEditPostChange = (e) => {
+    setEditedPostContent(e.target.value);
+  };
+
+  const handleEditPostSubmit = async () => {
+    const formData = new FormData();
+
+    formData.append("title", "");
+    formData.append("content", editedPostContent);
+    if (false) {
+      formData.append("image", null);
+    }
+    try {
+      await api().put(`/article/${postId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      fetchPostData();
+      setIsEditingPost(false);
+    } catch (error) {
+      console.error("게시물 수정에 실패했습니다:", error);
+    }
+  };
+
+  const handleDeletePost = async () => {
+    if (window.confirm("이 게시물을 삭제하시겠습니까?")) {
+      try {
+        await api().delete(`/article/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        navigate("/"); // 삭제 후 홈으로 이동하거나 적절한 페이지로 리디렉션
+      } catch (error) {
+        console.error("게시물 삭제에 실패했습니다:", error);
+      }
+    }
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -146,7 +194,9 @@ function PostDetail() {
 
   return (
     <div className="App flex flex-col h-screen max-w-lg mx-auto">
-      <Headerback />
+      <div onClick={moveBack}>
+        <Headerback />
+      </div>
 
       <main className="flex-1 p-4 overflow-auto">
         <div className="mb-4">
@@ -164,7 +214,41 @@ function PostDetail() {
             </div>
           )}
 
-          <p className="mt-2">{postData.content}</p>
+          {isEditingPost ? (
+            <div>
+              <textarea
+                value={editedPostContent}
+                onChange={handleEditPostChange}
+                className="w-full p-2 border rounded-md focus:outline-none"
+              />
+              <button
+                onClick={handleEditPostSubmit}
+                className="mt-2 text-[#93BF66]">
+                <div className="text-xl" />
+                수정완료
+              </button>
+              <button
+                onClick={() => setIsEditingPost(false)}
+                className="ml-2 text-[#93BF66]">
+                취소
+              </button>
+            </div>
+          ) : (
+            <>
+              <p className="mt-2">{postData.content}</p>
+              <div className="flex space-x-2 mt-2">
+                <button
+                  onClick={() => setIsEditingPost(true)}
+                  className="text-[#93BF66]">
+                  수정
+                </button>
+                <button onClick={handleDeletePost} className="text-[#93BF66]">
+                  삭제
+                </button>
+              </div>
+            </>
+          )}
+
           <div className="flex items-center mt-4 text-[#93BF66]">
             <FaRegComment className="mr-2" />
             <span>{comments.length}</span>
@@ -186,7 +270,7 @@ function PostDetail() {
                       <button
                         onClick={() => handleEditCommentSubmit(comment.id)}
                         className="ml-2 text-[#93BF66]">
-                        <BsSend className="text-xl" />
+                        <FaRegComment className="text-xl" />
                       </button>
                     </div>
                   ) : (

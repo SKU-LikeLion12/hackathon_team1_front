@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api/api";
+import Footer from "../components/Footer";
 
 function Community() {
   const navigate = useNavigate();
@@ -26,19 +27,20 @@ function Community() {
     try {
       const response = await api().get("/articles/all");
       setPosts(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("게시물을 불러오는데 실패했습니다:", error);
     }
   };
 
-  // 게시물 필터링 로직
-  const filteredPosts = posts.filter(
-    (post) =>
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.subtitle.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredPosts = posts.filter((post) => {
+    const title = post.title ? post.title.toLowerCase() : "";
+    const content = post.content ? post.content.toLowerCase() : "";
+    const query = searchQuery.toLowerCase();
 
-  // 현재 페이지에 표시할 게시물 계산
+    return title.includes(query) || content.includes(query);
+  });
+
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
@@ -53,7 +55,6 @@ function Community() {
 
   return (
     <div className="flex flex-col h-screen bg-white max-w-[500px] mx-auto relative">
-      {/* 무연 */}
       <header className="flex items-center justify-between p-2 border-b">
         <div className="flex flex-1 justify-center">
           <img src="/image/Logo.png" alt="Logo" className="h-16" />
@@ -64,7 +65,6 @@ function Community() {
         />
       </header>
 
-      {/* 검색 입력 필드 */}
       {showSearch && (
         <div className="p-2 border-b">
           <input
@@ -78,26 +78,8 @@ function Community() {
         </div>
       )}
 
-      {/* 내용 */}
       <main className="flex-1 overflow-y-auto pb-32 pt-20">
         <ul className="divide-y">
-          {/* {currentPosts.map((post, index) => (
-            <li key={index} className="py-2 px-3">
-              <h3 className="font-semibold text-sm">{post.title}</h3>
-              <p className="text-xs text-gray-500">{post.subtitle}</p>
-              <div className="flex items-center text-xs text-gray-400 mt-0.5">
-                {post.comments > 0 && (
-                  <>
-                    <span className="text-[#93BF66]">💬 {post.comments}</span>
-                    <span className="mx-1">|</span>
-                  </>
-                )}
-                <span>{post.timeAgo}</span>
-                <span className="mx-1">|</span>
-                <span>{post.author}</span>
-              </div>
-            </li>
-          ))} */}
           {currentPosts.map((post, index) => (
             <li
               key={post.id}
@@ -105,15 +87,14 @@ function Community() {
               onClick={() => goToPostDetail(post.id)}>
               <h3 className="font-semibold text-sm">{post.title}</h3>
               <p className="text-xs text-gray-500">
-                {post.content.substring(0, 50)}...
+                {post.content ? post.content.substring(0, 50) : ""}...
               </p>
               <div className="flex items-center text-xs text-gray-400 mt-0.5">
-                {post.commentCount > 0 && (
+                {post.commentCount >= 0 && (
                   <>
-                    <span className="text-[#93BF66]">
-                      💬 {post.commentCount}
-                    </span>
-                    <span className="mx-1">|</span>
+                    <span className="text-[#93BF66]"></span>
+                    💬
+                    <span className="mx-1"> {post.commentCount}|</span>
                   </>
                 )}
                 <span>{new Date(post.createDate).toLocaleString()}</span>
@@ -125,7 +106,6 @@ function Community() {
         </ul>
       </main>
 
-      {/* 페이지네이션 및 글쓰기 버튼 */}
       <div className="fixed bottom-16 left-1/2 transform -translate-x-1/2 w-full max-w-[500px] py-2 bg-white border-t">
         <div className="flex justify-center items-center">
           <button
@@ -163,85 +143,9 @@ function Community() {
         </Link>
       </div>
 
-      {/* 메뉴 */}
-      <footer className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-[500px] flex justify-around items-center py-2 border-t bg-white">
-        <button className="flex flex-col items-center">
-          <FaUser className="text-lg mb-0.5" />
-          <span className="text-xs">마이페이지</span>
-        </button>
-        <button className="flex flex-col items-center">
-          <FaHome className="text-lg mb-0.5" />
-          <span className="text-xs">홈</span>
-        </button>
-        <button
-          onClick={() => goToPage(1)}
-          className="flex flex-col items-center">
-          <FaPencilAlt className="text-lg mb-0.5" />
-          <span className="text-xs">커뮤니티</span>
-        </button>
-      </footer>
+      <Footer />
     </div>
   );
 }
-
-const posts = [
-  {
-    title: "전자담배 추천",
-    subtitle: "무슨 담배가 좋을까",
-    comments: 2,
-    timeAgo: "44분 전",
-    author: "김**",
-  },
-  {
-    title: "연초 추천",
-    subtitle: "무슨 담배가 좋을까",
-    comments: 0,
-    timeAgo: "07/06",
-    author: "김**",
-  },
-  {
-    title: "금연껌 추천",
-    subtitle: "무슨 껌이 좋을까",
-    comments: 0,
-    timeAgo: "07/06",
-    author: "김**",
-  },
-  {
-    title: "금연 보조제 추천",
-    subtitle: "우리 다 같이 금연해봐요",
-    comments: 4,
-    timeAgo: "07/06",
-    author: "김**",
-  },
-  {
-    title: "금연 5일차",
-    subtitle: "죽고싶다...",
-    comments: 0,
-    timeAgo: "07/04",
-    author: "김**",
-  },
-  {
-    title: "단기간 금연 성공하신분",
-    subtitle: "5년핀 담배 단기간에 끊을 수 있나",
-    comments: 0,
-    timeAgo: "07/06",
-    author: "김**",
-  },
-  {
-    title: "다들 금연할 때 전담까지 다 끊음?",
-    subtitle: "전담도 안 하면 너무 힘든데",
-    comments: 1,
-    timeAgo: "07/06",
-    author: "김**",
-  },
-  {
-    title: "게시글 미리보기 길어질 때 예시!",
-    subtitle:
-      "게시글 미리보기가 길어질 때는 이렇게 표시될 예정입니다. 말줄임표로...",
-    comments: 3,
-    timeAgo: "07/06",
-    author: "김**",
-  },
-];
 
 export default Community;
