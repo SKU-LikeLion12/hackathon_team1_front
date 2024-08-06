@@ -176,7 +176,7 @@ function PostDetail() {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        navigate("/"); // 삭제 후 홈으로 이동하거나 적절한 페이지로 리디렉션
+        navigate("/community"); // 삭제 후 홈으로 이동하거나 적절한 페이지로 리디렉션
       } catch (error) {
         console.error("게시물 삭제에 실패했습니다:", error);
       }
