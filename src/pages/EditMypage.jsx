@@ -32,6 +32,7 @@ export default function EditMypage() {
     cigarPrice: false,
     cigarsPerPack: false,
     tar: false,
+    image: false,
   });
 
   const getCurrentDate = () => {
@@ -98,6 +99,7 @@ export default function EditMypage() {
         const compressedFile = await compressImage(file, 800, 800, 0.7);
         setSelectedFile(compressedFile);
         setImagePreview(URL.createObjectURL(compressedFile));
+        setIsEdited({ ...isEdited, image: true });
       } catch (error) {
         console.error("이미지 압축 중 오류 발생:", error);
       }
@@ -157,7 +159,6 @@ export default function EditMypage() {
     if (image != null) {
       setImagePreview(`data:image/png;base64,${image}`);
     }
-    setSelectedFile(image);
     setMaxSmokeDate(quitDate);
     setMinQuitDate(smokeDate);
   }, []);
@@ -194,10 +195,8 @@ export default function EditMypage() {
       formData.append("tar", isEdited.tar ? parseInt(tarCount, 10) : tar);
 
       // 이미지가 변경되었을 때만 새 이미지 추가
-      if (selectedFile && selectedFile !== image) {
+      if (isEdited.image && selectedFile) {
         formData.append("image", selectedFile);
-      } else {
-        formData.append("image", image);
       }
 
       const token = localStorage.getItem("token");
@@ -205,7 +204,6 @@ export default function EditMypage() {
         try {
           const response = await api().put("/member", formData, {
             headers: {
-              Authorization: `Bearer ${token}`,
               "Content-Type": "multipart/form-data",
             },
           });

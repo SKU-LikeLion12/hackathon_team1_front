@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../components/Header";
+import Headerback from "../components/Headerback";
 import ProgressBar from "../components/ProgressBar";
 import { CheckIcon, DotsIcon } from "../animation/icons/MainPageIcons";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const timelineData = [
   { time: 20, description: "심박수가 정상으로 돌아옵니다." }, // 20분
@@ -65,12 +65,19 @@ const formatTime = (minutes) => {
 
 export default function MainpageStatus() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { daysSinceQuit } = location.state || {};
+
+  const moveBack = () => {
+    navigate(-1);
+  };
 
   return (
     <>
       <div>
-        <Header />
+        <div onClick={moveBack}>
+          <Headerback />
+        </div>
 
         <div className="max-w-lg mx-auto px-6 py-8 select-none">
           <div className="text-2xl mb-6">
