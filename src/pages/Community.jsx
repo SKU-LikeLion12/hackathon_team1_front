@@ -16,7 +16,7 @@ function Community() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
-  const postsPerPage = 4; // 페이지 당 게시물 수
+  const postsPerPage = 10; // 페이지 당 게시물 수
   const [posts, setPosts] = useState([]); // api 연결
 
   useEffect(() => {
@@ -26,8 +26,11 @@ function Community() {
   const fetchPosts = async () => {
     try {
       const response = await api().get("/articles/all");
-      setPosts(response.data);
-      console.log(response.data);
+      const sortedPosts = response.data.sort(
+        (a, b) => new Date(b.createDate) - new Date(a.createDate)
+      );
+      setPosts(sortedPosts);
+      console.log(sortedPosts);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         localStorage.removeItem("token");
@@ -83,7 +86,7 @@ function Community() {
         </div>
       )}
 
-      <main className="flex-1 overflow-y-auto pb-32 pt-20">
+      <main className="flex-1 overflow-y-auto pb-32 flex flex-col justify-center">
         <ul className="divide-y">
           {currentPosts.map((post, index) => (
             <li
