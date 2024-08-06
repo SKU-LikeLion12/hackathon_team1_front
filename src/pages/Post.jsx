@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FaArrowLeft, FaCamera } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import api from "../api/api";
 
 function Post() {
