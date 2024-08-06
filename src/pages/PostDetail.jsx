@@ -35,11 +35,16 @@ function PostDetail() {
         setError("게시물 데이터가 비어있습니다.");
       }
     } catch (error) {
-      console.error(
-        "게시물을 불러오는데 실패했습니다:",
-        error.response ? error.response.data : error.message
-      );
-      setError("게시물을 불러오는데 실패했습니다.");
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/", { replace: true });
+      } else {
+        console.error(
+          "게시물을 불러오는데 실패했습니다:",
+          error.response ? error.response.data : error.message
+        );
+        setError("게시물을 불러오는데 실패했습니다.");
+      }
     } finally {
       setIsLoading(false);
     }

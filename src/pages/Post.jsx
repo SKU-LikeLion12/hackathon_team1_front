@@ -52,13 +52,18 @@ function Post() {
       alert("게시물이 등록되었습니다.");
       navigate("/community");
     } catch (error) {
-      console.error(
-        "게시물 등록 중 오류가 발생했습니다:",
-        error.response || error
-      );
-      alert(
-        `게시물 등록 중 오류가 발생했습니다: ${error.response?.data?.message || error.message}`
-      );
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/", { replace: true });
+      } else {
+        console.error(
+          "게시물 등록 중 오류가 발생했습니다:",
+          error.response || error
+        );
+        alert(
+          `게시물 등록 중 오류가 발생했습니다: ${error.response?.data?.message || error.message}`
+        );
+      }
     }
   };
 

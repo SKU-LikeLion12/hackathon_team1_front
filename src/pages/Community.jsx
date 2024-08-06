@@ -29,7 +29,12 @@ function Community() {
       setPosts(response.data);
       console.log(response.data);
     } catch (error) {
-      console.error("게시물을 불러오는데 실패했습니다:", error);
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/", { replace: true });
+      } else {
+        console.error("게시물을 불러오는데 실패했습니다:", error);
+      }
     }
   };
 

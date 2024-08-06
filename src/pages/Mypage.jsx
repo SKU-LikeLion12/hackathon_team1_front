@@ -44,7 +44,7 @@ export default function Mypage() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   };
 
   useEffect(() => {
@@ -71,7 +71,8 @@ export default function Mypage() {
           });
         } catch (error) {
           if (error.response && error.response.status === 401) {
-            navigate("/login", { replace: true });
+            localStorage.removeItem("token");
+            navigate("/", { replace: true });
           } else {
             console.error("loadInitialData error: ", error);
           }

@@ -123,7 +123,7 @@ export default function BasicInfo() {
             navigate("/main", { replace: true });
           } else {
             console.log("201상태, token 발급 실패");
-            navigate("/login", { replace: true });
+            navigate("/", { replace: true });
           }
         }
       } catch (error) {

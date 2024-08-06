@@ -9,7 +9,7 @@ export default function FindIdSuccess() {
   const { name, id } = location.state || {};
 
   const navigateToLogin = () => {
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   };
 
   const navigateToResetPw = () => {

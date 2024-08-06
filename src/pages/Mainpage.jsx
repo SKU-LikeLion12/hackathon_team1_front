@@ -102,6 +102,7 @@ export default function Mainpage() {
         });
       } catch (error) {
         if (error.response && error.response.status === 401) {
+          localStorage.removeItem("token");
           navigate("/login", { replace: true });
         } else {
           console.error("loadIitialData error : ", error);
@@ -113,7 +114,7 @@ export default function Mainpage() {
     if (token) {
       loadInitialData();
     } else {
-      navigate("/login", { replace: true });
+      navigate("/", { replace: true });
     }
   }, []);
 

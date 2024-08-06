@@ -20,7 +20,7 @@ import "./fonts/fonts.css";
 
 const PrivateRoute = ({ element }) => {
   const token = localStorage.getItem("token");
-  return token ? element : <Navigate to="/login" />;
+  return token ? element : <Navigate to="/" />;
 };
 
 const PublicRoute = ({ element }) => {
@@ -50,7 +50,7 @@ function App() {
             path="/mainstatus"
             element={<PrivateRoute element={<MainStatus />} />}
           />
-          <Route path="/login" element={<PublicRoute element={<Login />} />} />
+          <Route path="/" element={<PublicRoute element={<Login />} />} />
           <Route
             path="/signup"
             element={<PublicRoute element={<SignUp />} />}

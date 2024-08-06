@@ -18,7 +18,7 @@ export default function ResetPasswordSuccess() {
             비밀번호 재설정 완료!
           </div>
 
-          <Link to="/login">
+          <Link to="/">
             <div className="w-full h-12 bg-[#93BF66] rounded-lg text-white font-bold flex justify-center items-center">
               로그인 하러 가기
             </div>

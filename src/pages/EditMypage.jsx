@@ -210,17 +210,22 @@ export default function EditMypage() {
           console.log("서버 응답:", response.data);
           navigate("/mypage", { replace: true });
         } catch (error) {
-          console.error(
-            "서버 오류:",
-            error.response ? error.response.data : error
-          );
-          alert(
-            "수정 중 오류가 발생했습니다: " +
-              (error.response ? error.response.data.message : error.message)
-          );
+          if (error.response && error.response.status === 401) {
+            localStorage.removeItem("token");
+            navigate("/", { replace: true });
+          } else {
+            console.error(
+              "서버 오류:",
+              error.response ? error.response.data : error
+            );
+            alert(
+              "수정 중 오류가 발생했습니다: " +
+                (error.response ? error.response.data.message : error.message)
+            );
+          }
         }
       } else {
-        navigate("/login", { replace: true });
+        navigate("/", { replace: true });
       }
     } else {
       console.error("변경된 필드의 값이 올바르지 않습니다.");

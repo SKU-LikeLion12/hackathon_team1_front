@@ -102,7 +102,7 @@ export default function ResetPasswordAuth() {
 
         if (response.status === 200) {
           alert("이메일로 임시 비밀번호를 발송했습니다.");
-          navigate("/login", { replace: true });
+          navigate("/", { replace: true });
         } else {
           console.error(
             "response status is not 200 : ",

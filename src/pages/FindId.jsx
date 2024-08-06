@@ -118,7 +118,7 @@ export default function FindId() {
       } catch (error) {
         if (error.response && error.response.status === 404) {
           alert("가입되지 않은 이메일입니다.");
-          navigate("/login", { replace: true });
+          navigate("/", { replace: true });
         } else {
           console.error("response error : ", error);
           alert("서버 오류가 발생했습니다. 다시 시도해주세요."); // 추가적인 오류 처리
