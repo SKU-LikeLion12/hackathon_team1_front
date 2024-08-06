@@ -26,8 +26,11 @@ function Community() {
   const fetchPosts = async () => {
     try {
       const response = await api().get("/articles/all");
-      setPosts(response.data);
-      console.log(response.data);
+      const sortedPosts = response.data.sort(
+        (a, b) => new Date(b.createDate) - new Date(a.createDate)
+      );
+      setPosts(sortedPosts);
+      console.log(sortedPosts);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         localStorage.removeItem("token");
