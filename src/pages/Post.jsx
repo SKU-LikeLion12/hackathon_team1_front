@@ -36,7 +36,8 @@ function Post() {
 
   const saveBoard = async () => {
     const formData = new FormData();
-    formData.append("request", JSON.stringify({ title, content }));
+    formData.append("title", title);
+    formData.append("content", content);
     if (image) {
       formData.append("image", image);
     }
@@ -48,7 +49,7 @@ function Post() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log("Response data:s", response.data);
+      console.log("보낸 데이터:", response.data);
       alert("게시물이 등록되었습니다.");
       navigate("/community");
     } catch (error) {
