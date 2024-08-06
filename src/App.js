@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes, Link, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import Mainpage from "./pages/Mainpage";
+import EditMypage from "./pages/EditMypage";
 import Mypage from "./pages/Mypage";
 import MainStatus from "./pages/MainpageStatus";
 import Login from "./pages/Login";
@@ -35,6 +36,10 @@ function App() {
           <Route
             path="/mypage"
             element={<PrivateRoute element={<Mypage />} />}
+          />
+          <Route
+            path="/editmypage"
+            element={<PrivateRoute element={<EditMypage />} />}
           />
 
           <Route
