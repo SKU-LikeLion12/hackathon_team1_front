@@ -103,7 +103,7 @@ export default function Mainpage() {
       } catch (error) {
         if (error.response && error.response.status === 401) {
           localStorage.removeItem("token");
-          navigate("/login", { replace: true });
+          navigate("/", { replace: true });
         } else {
           console.error("loadIitialData error : ", error);
         }

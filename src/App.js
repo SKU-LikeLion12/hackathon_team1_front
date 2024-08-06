@@ -15,7 +15,6 @@ import ResetPasswordAuth from "./pages/ResetPasswordAuth";
 import Community from "./pages/Community";
 import Post from "./pages/Post";
 import PostDetail from "./pages/PostDetail";
-import PostPhoto from "./pages/PostPhoto";
 import "./fonts/fonts.css";
 
 const PrivateRoute = ({ element }) => {
@@ -84,10 +83,6 @@ function App() {
           <Route
             path="/postdetail"
             element={<PrivateRoute element={<PostDetail />} />}
-          />
-          <Route
-            path="/postphoto"
-            element={<PrivateRoute element={<PostPhoto />} />}
           />
         </Routes>
       </BrowserRouter>
