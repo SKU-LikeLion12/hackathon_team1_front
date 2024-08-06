@@ -9,15 +9,19 @@ function Post() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const handleImageUpload = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0]);
+      const file = e.target.files[0];
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file)); // Blob URL 생성
     }
   };
 
   const removeImage = () => {
     setImage(null);
+    setImagePreview(null); // 미리보기도 초기화
   };
 
   const onChange = (event) => {
@@ -35,9 +39,15 @@ function Post() {
   };
 
   const saveBoard = async () => {
+    if (!title || !content) {
+      alert("제목과 내용을 입력하세요.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
+
     if (image) {
       formData.append("image", image);
     }
@@ -49,7 +59,6 @@ function Post() {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      console.log("보낸 데이터:", response.data);
       alert("게시물이 등록되었습니다.");
       navigate("/community");
     } catch (error) {
@@ -57,10 +66,6 @@ function Post() {
         localStorage.removeItem("token");
         navigate("/", { replace: true });
       } else {
-        console.error(
-          "게시물 등록 중 오류가 발생했습니다:",
-          error.response || error
-        );
         alert(
           `게시물 등록 중 오류가 발생했습니다: ${error.response?.data?.message || error.message}`
         );
@@ -121,10 +126,10 @@ function Post() {
           />
         </label>
 
-        {image && (
+        {imagePreview && (
           <div className="mt-4 relative">
             <img
-              src={`data:image/png;base64,${image}`}
+              src={imagePreview}
               alt="Selected"
               className="w-full h-40 object-cover rounded"
             />
